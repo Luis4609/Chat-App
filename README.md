@@ -2,6 +2,8 @@
 
 ## Features
 
+### Basic Funcionality
+
 - Access: users can access the application with a username and a password.
 - Sending: users can send messages to other users.
 - Inbox: users can see the list of the messages.
@@ -10,10 +12,10 @@
 
 ## Extensions
 
-- **Self-registration**: realistic process for users to register on the website. To get the full score, you have to include an email with an activation link.
+- **Self-registration**: realistic process for users to register on the website. To get the full score, you have to include an email with an activation link. **DONE**
 - **Password recovery**: users can send messages to other users.
 - **Messages to multiple recipients**: allow to enter more than one recipient in the message submission form.
-- **Encrypted password**: php - password_hash.
+- **Encrypted password**: php - password_hash. **DONE**
 - **User avatar**: Users will be able to upload an image to use as an avatar.It has to have some consequence in the application. For example, that the avatar
   appears in the messages that a user sends, or that it can be seen when accessing their
   profile.They can also update it.

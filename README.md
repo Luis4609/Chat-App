@@ -1,5 +1,11 @@
 # Chat-App
 
+### About this file
+The purpose of this file is to provide overview, setup instructions and background information of the project. If you have joined this project as a part of the development team, please ensure this file is up to date.
+
+**Note** : Any dependencies added / modified to this project which affect the running of the code in this git repository must be listed in this file. All developers must ensure that the instructions mentioned in this file are sufficient to enable a new developer to obtain a executable copy of the lastest code in this repository, without involvement from any other human assistance.
+
+
 ## Features
 
 ### Basic Funcionality
@@ -47,3 +53,7 @@
 > https://www.w3schools.com/php/php_file_upload.asp
 
 > https://github.com/PHPMailer/PHPMailer
+
+> **Admin Zone:** https://www.cloudways.com/blog/admin-dashboard-template-php-boostrap-4/ 
+
+> https://www.php.net/manual/en/ref.ldap.php

@@ -9,6 +9,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $myusername =  $_POST['username'];
   $mypassword = password_hash($_POST["password"], PASSWORD_DEFAULT);
 
+  //TO-DO CHECK IF THE USER IS AN ADMIN
+  //REDIRECT THE ADMIN TO THE ADMINISTRATION ZONE
+
   //$query = "SELECT * FROM users WHERE username = :username AND password = :password";  
   $sql = "SELECT  UserId,UserName, UserPassword, UserFirstName FROM Users WHERE UserName  = :username AND IsActive = 1";
   $statement = $pdo->prepare($sql);
@@ -17,7 +20,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       'username'     =>     $myusername
     )
   );
-
   //Look if we had a user
   $count = $statement->rowCount();
   if ($count > 0) {

@@ -54,10 +54,9 @@ The purpose of this file is to provide overview, setup instructions and backgrou
 
 > https://github.com/PHPMailer/PHPMailer
 
-<<<<<<< HEAD
 > **Admin Zone:** https://www.cloudways.com/blog/admin-dashboard-template-php-boostrap-4/ 
 
 > https://www.php.net/manual/en/ref.ldap.php
-=======
+
 > https://www.mkdocs.org/
->>>>>>> 514eebed7b54dc048d7fa71a87ea309525159597
+

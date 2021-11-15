@@ -60,3 +60,9 @@ The purpose of this file is to provide overview, setup instructions and backgrou
 
 > https://www.mkdocs.org/
 
+> **Text-area for message**: https://getbootstrap.com/docs/5.0/forms/form-control/
+
+> https://www.w3schools.com/tags/tag_datalist.asp
+
+> https://getbootstrap.com/docs/5.0/forms/input-group/
+

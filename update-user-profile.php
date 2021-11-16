@@ -14,34 +14,49 @@ $userFirstName = $user['UserFirstName'];
 <?= template_header('Home', $userFirstName, $userName) ?>
 
 <link href="/Chat-App/assets/dist/css/list-groups.css" rel="stylesheet">
-<!-- Look if we need to display de current user name or some info on the message page -->
+
 <!-- <div class="featured">
     <h2> <?= $userName ?></h2>
 </div> -->
-<div class="list-group">
+<!-- <div class="list-group">
     <h2>Profile of <?= $user['UserFirstName'] ?></h2>
     <div class="user">
-        <!-- <img src="https://github.com/twbs.png" alt="twbs" width="32" height="32" class="rounded-circle flex-shrink-0" /> -->
+        <img src="/Chat-App/uploads/user_defualt_avatar.jpg" alt="twbs" width="60" height="60" class="rounded-circle flex-shrink-0" />
         <div class="d-flex gap-2 w-100 justify-content-between">
             <div>
                 <h6 class="mb-0"> <?= $user['UserName'] ?></h6>
             </div>
-            <!-- <small class="opacity-50 text-nowrap"><?= $user['Timestamp'] ?></small> -->
         </div>
 
     </div>
     <form action="upload-file.php" method="post" enctype="multipart/form-data">
-        Select image to upload:
+         <label for="fileToUpload">Select image to upload:</label>
         <input type="file" name="fileToUpload" id="fileToUpload">
         <input type="submit" value="Upload Image" name="submit">
     </form>
-</div>
-<div class="card" style="width: 18rem;">
-    <img src="/uploads/Dva x Lucio.jpg" class="card-img-top" alt="...">
-    <div class="card-body">
-        <h5 class="card-title">Card title</h5>
-        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-        <a href="#" class="btn btn-primary">Go somewhere</a>
+</div> -->
+<div class="list-group">
+    <div class="card mb-3 border-light" style="max-width: 540px;">
+        <div class="row g-0">
+            <div class="col-md-4">
+                <img src="/Chat-App/uploads/user_defualt_avatar.jpg" class="img-fluid rounded-start" alt="...">
+            </div>
+            <div class="col-md-8">
+                <a href="index.php?page=edit-user-profile">
+                    <div class="card-header">Editar perfil</div>
+                </a>
+                <div class="card-body">
+                    <h5 class="card-title"><?= $user['UserFirstName'] . " " .  $user['UserLastName'] ?></h5>
+                    <p class="card-text"><?= $user['UserName'] ?></p>
+                    <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                </div>
+            </div>
+        </div>
+        <form action="upload-file.php" method="post" enctype="multipart/form-data">
+            <label for="fileToUpload">New avatar:</label>
+            <input type="file" name="fileToUpload" id="fileToUpload">
+            <input type="submit" value="Upload Image" name="submit">
+        </form>
     </div>
 </div>
 

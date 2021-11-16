@@ -64,7 +64,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 ?>
-<?= template_header('Home', $userFirstName) ?>
+<?= template_header('Home', $userFirstName, $userName) ?>
 
 <link href="/Chat-App/assets/dist/css/list-groups.css" rel="stylesheet">
 <!--Form for sending a message-->

@@ -129,7 +129,7 @@ function template_error_inpage($title, $errorMessage)
 
 EOT;
 }
-// Template error in page
+// Template success in page
 function template_success_inpage($title, $successMessage)
 {
     echo <<<EOT

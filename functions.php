@@ -27,6 +27,7 @@ function template_header($title, $userFirstName, $userName)
 		<meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>$title</title>
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
          <!-- Bootstrap core CSS -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
         <link href="/Chat-App/assets/dist/css/bootstrap.min.css" rel="stylesheet" />

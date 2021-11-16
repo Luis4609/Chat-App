@@ -41,7 +41,7 @@ $userFirstName = $user['UserFirstName'];
                 <div class="row g-3">
                     <div class="col-sm-6">
                         <label for="firstName" class="form-label">First name</label>
-                        <input type="text" class="form-control" id="firstName" placeholder="" value="" required>
+                        <input type="text" class="form-control" id="firstName" placeholder="" value="<? $user['UserFirstName'] ?>" required readonly>
                         <div class="invalid-feedback">
                             Valid first name is required.
                         </div>
@@ -49,7 +49,7 @@ $userFirstName = $user['UserFirstName'];
 
                     <div class="col-sm-6">
                         <label for="lastName" class="form-label">Last name</label>
-                        <input type="text" class="form-control" id="lastName" placeholder="" value="" required>
+                        <input type="text" class="form-control" id="lastName" placeholder="<? $user['UserFirstName'] ?>" value="" required disabled>
                         <div class="invalid-feedback">
                             Valid last name is required.
                         </div>

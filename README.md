@@ -1,10 +1,10 @@
 # Chat-App
 
 ### About this file
+
 The purpose of this file is to provide overview, setup instructions and background information of the project. If you have joined this project as a part of the development team, please ensure this file is up to date.
 
 **Note** : Any dependencies added / modified to this project which affect the running of the code in this git repository must be listed in this file. All developers must ensure that the instructions mentioned in this file are sufficient to enable a new developer to obtain a executable copy of the lastest code in this repository, without involvement from any other human assistance.
-
 
 ## Features
 
@@ -54,7 +54,7 @@ The purpose of this file is to provide overview, setup instructions and backgrou
 
 > https://github.com/PHPMailer/PHPMailer
 
-> **Admin Zone:** https://www.cloudways.com/blog/admin-dashboard-template-php-boostrap-4/ 
+> **Admin Zone:** https://www.cloudways.com/blog/admin-dashboard-template-php-boostrap-4/
 
 > https://www.php.net/manual/en/ref.ldap.php
 
@@ -66,3 +66,4 @@ The purpose of this file is to provide overview, setup instructions and backgrou
 
 > https://getbootstrap.com/docs/5.0/forms/input-group/
 
+> https://getbootstrap.com/docs/5.0/examples/cheatsheet/

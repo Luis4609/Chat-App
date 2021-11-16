@@ -18,7 +18,7 @@ function pdo_connect_mysql()
 }
 
 // Template header, feel free to customize this
-function template_header($title, $userName)
+function template_header($title, $userFirstName, $userName)
 {
     echo <<<EOT
 <!DOCTYPE html>
@@ -50,13 +50,19 @@ function template_header($title, $userName)
                 <li class="nav-item active">
                 <a class="nav-link" href="index.php?page=home">Inbox<span class="sr-only">(current)</span></a>
                 </li>
+                <li class="nav-item active">
+                <a class="nav-link" href="index.php?page=outbox">Outbox<span class="sr-only">(current)</span></a>
+                </li>
                 <li class="nav-item">
                  <a class="nav-link" href="index.php?page=new-message">New message</a>
+                </li>
+                <li class="nav-item">
+                 <a class="nav-link" href="index.php?page=contact-list">Contact list</a>
                 </li>
             </ul>  
         </div>
         <div class="collapse navbar-collapse" id="navbarCollapse">
-        <a class="nav-link" href="#">Welcome $userName </a>
+        <a class="nav-link" href="index.php?page=update-user-profile&username=$userName">Welcome $userFirstName </a>
         </div>
       </nav>
     </header>

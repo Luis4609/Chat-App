@@ -16,7 +16,7 @@ $recently_added_messages = $stmt->fetchAll(PDO::FETCH_ASSOC);
 $userName = $_SESSION["username"];
 $firstName = $_SESSION["userFirstName"];
 ?>
-<?= template_header('Home', $firstName) ?>
+<?= template_header('Home', $firstName, $userName) ?>
 
 <link href="/Chat-App/assets/dist/css/list-groups.css" rel="stylesheet">
 <div class="featured">

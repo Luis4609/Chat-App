@@ -4,11 +4,7 @@
 $stmt = $pdo->prepare('SELECT * FROM Users');
 //Second Query: select all the friends for a USER with an ID. Get the UserId from the SESSION
 // $stmt = $pdo->prepare('SELECT * FROM Users WHERE UserId = :userid');
-$stmt->execute(
-    array(
-        'userid'     =>      $_SESSION["userid"]
-    )
-);
+$stmt->execute();
 //Verify the respond data from DB
 if ($stmt == null) {
     //Error
@@ -19,7 +15,7 @@ $contacts = $stmt->fetchAll(PDO::FETCH_ASSOC);
 $userName = $_SESSION["username"];
 $firstName = $_SESSION["userFirstName"];
 ?>
-<?= template_header('Home', $firstName) ?>
+<?= template_header('Home', $firstName, $userName) ?>
 <link href="/Chat-App/assets/dist/css/list-groups.css" rel="stylesheet">
 <div class="featured">
     <h2> <?= $firstName ?> <i class="far fa-address-book"></i></h2>
@@ -28,7 +24,7 @@ $firstName = $_SESSION["userFirstName"];
     <h2><?= $firstName ?>'s Contact List <i class="fas fa-inbox"></i></h2>
     <div class="contacts">
         <?php foreach ($contacts as $contact) : ?>
-            <a href="index.php?page=new-message&id=<?= $contact['UserId'] ?>" class="list-group-item list-group-item-action d-flex gap-3 py-3" aria-current="true">
+            <a href="index.php?page=new-message&tousername=<?= $contact['UserName'] ?>" class="list-group-item list-group-item-action d-flex gap-3 py-3" aria-current="true">
                 <!-- <img src="https://github.com/twbs.png" alt="twbs" width="32" height="32" class="rounded-circle flex-shrink-0" /> -->
                 <div class="d-flex gap-2 w-100 justify-content-between">
                     <div>

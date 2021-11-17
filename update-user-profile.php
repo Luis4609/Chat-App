@@ -52,11 +52,11 @@ $userFirstName = $user['UserFirstName'];
                 </div>
             </div>
         </div>
-        <form action="upload-file.php" method="post" enctype="multipart/form-data">
+        <!-- <form action="upload-file.php" method="post" enctype="multipart/form-data">
             <label for="fileToUpload">New avatar:</label>
             <input type="file" name="fileToUpload" id="fileToUpload">
             <input type="submit" value="Upload Image" name="submit">
-        </form>
+        </form> -->
     </div>
 </div>
 

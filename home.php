@@ -1,4 +1,8 @@
 <?php
+//Info of the log user
+$userName = $_SESSION["username"];
+$firstName = $_SESSION["userFirstName"];
+
 // Get the latest messages from the logged in user
 $stmt = $pdo->prepare('SELECT * FROM Messages Where ToUserId = :userid ORDER BY Timestamp DESC ');
 $stmt->execute(
@@ -13,8 +17,21 @@ if ($stmt == null) {
     template_error('Error', $errorMessage);
 }
 $recently_added_messages = $stmt->fetchAll(PDO::FETCH_ASSOC);
-$userName = $_SESSION["username"];
-$firstName = $_SESSION["userFirstName"];
+// Get the log user
+$stmtUser = $pdo->prepare('SELECT * FROM Users Where UserName = :userName ');
+$stmtUser->execute(
+    array(
+        'userName'     =>     $userName
+    )
+);
+//Verify the respond data from DB
+if ($stmtUser == null) {
+    //Error
+    $errorMessage = "There was an error in the database, please wait here";
+    template_error('Error', $errorMessage);
+}
+$info_user = $stmtUser->fetch(PDO::FETCH_ASSOC);
+
 ?>
 <?= template_header('Home', $firstName, $userName) ?>
 
@@ -26,17 +43,27 @@ $firstName = $_SESSION["userFirstName"];
     <h2><?= $firstName ?>'s Inbox <i class="fas fa-inbox"></i></h2>
     <div class="messages">
         <?php foreach ($recently_added_messages as $message) : ?>
+            <?php
+            // Get the info of the FromUser
+            $stmtFromUser = $pdo->prepare('SELECT * FROM Users Where UserId = :userid ');
+            $stmtFromUser->execute(
+                array(
+                    'userid'     =>     $message['FromUserId']
+                )
+            );
+            //Verify the respond data from DB
+            if ($stmtFromUser == null) {
+                //Error
+                $errorMessage = "There was an error in the database, please wait here";
+                template_error('Error', $errorMessage);
+            }
+            $info_from_user = $stmtFromUser->fetch(PDO::FETCH_ASSOC);
+            ?>
             <a href="index.php?page=message&id=<?= $message['MessageId'] ?>" class="list-group-item list-group-item-action d-flex gap-3 py-3" aria-current="true">
-                <!-- <img src="https://github.com/twbs.png" alt="twbs" width="32" height="32" class="rounded-circle flex-shrink-0" /> -->
-                <?php if ($message['IsRead'] == 0) {
-                    $iconMessage = "fas fa-envelope";
-                } else {
-                    $iconMessage = "fas fa-envelope-open";
-                } ?>
-                <i class="<?= $iconMessage ?>"></i>
+                <img src="<?= $info_from_user['UserAvatar'] ?>" alt="twbs" width="32" height="32" class="rounded-circle flex-shrink-0" />
                 <div class="d-flex gap-2 w-100 justify-content-between">
                     <div>
-                        <h6 class="mb-0"> <?= $message['FromUserId'] ?></h6>
+                        <h6 class="mb-0"> <?= $info_from_user['UserFirstName'] . " " . $info_from_user['UserLastName'] ?></h6>
                         <p class="mb-0 opacity-75">
                             <?= substr($message['Text'], 0, 50) ?>
                         </p>

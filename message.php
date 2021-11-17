@@ -17,7 +17,7 @@ $stmtUpdate->execute(
     )
 );
 ?>
-<?= template_header('Home', $userName) ?>
+<?= template_header('Home', $userName, $userFirstName) ?>
 
 <link href="/Chat-App/assets/dist/css/list-groups.css" rel="stylesheet">
 <!-- Look if we need to display de current user name or some info on the message page -->

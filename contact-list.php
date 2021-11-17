@@ -1,9 +1,6 @@
 <?php
 // Get the contact list of a user
-//First Query: select all the users in the db
 $stmt = $pdo->prepare('SELECT * FROM Users');
-//Second Query: select all the friends for a USER with an ID. Get the UserId from the SESSION
-// $stmt = $pdo->prepare('SELECT * FROM Users WHERE UserId = :userid');
 $stmt->execute();
 //Verify the respond data from DB
 if ($stmt == null) {

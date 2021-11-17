@@ -69,3 +69,5 @@ The purpose of this file is to provide overview, setup instructions and backgrou
 > https://getbootstrap.com/docs/5.0/examples/cheatsheet/
 
 > https://realfavicongenerator.net/favicon_result?file_id=p1fkl4ekhvs4b1d1h87v1sv5ll96#.YZQKRmDMLcs
+
+> https://makitweb.com/how-to-store-array-in-mysql-with-php/

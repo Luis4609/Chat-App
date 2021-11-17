@@ -1,4 +1,7 @@
 <?php
+//Get session variables
+$userName = $_SESSION["username"];
+
 // Get the user
 $stmt = $pdo->prepare('SELECT * FROM Users Where UserName = :username');
 $stmt->execute(
@@ -7,30 +10,30 @@ $stmt->execute(
     )
 );
 $user = $stmt->fetch(PDO::FETCH_ASSOC);
-$userName = $_SESSION["username"];
 $userFirstName = $user['UserFirstName'];
 $userLastName = $user['UserLastName'];
 
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
+    $target_dir = "uploads/";
+    $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
+    $newUserAvatar = $target_file;
+
+    //Update DB with the new Avatar
+    //Mark as readed
+    $stmtUpdate = $pdo->prepare('UPDATE Users SET UserAvatar = :userAvatar Where UserName = :userName');
+    $stmtUpdate->execute(
+        array(
+            'userAvatar' => $newUserAvatar,
+            'userName' => $userName
+        )
+    );
+}
 ?>
 <?= template_header('Home', $userFirstName, $userName) ?>
 <style>
     .container {
         max-width: 960px;
-    }
-
-    .bd-placeholder-img {
-        font-size: 1.125rem;
-        text-anchor: middle;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        user-select: none;
-    }
-
-    @media (min-width: 768px) {
-        .bd-placeholder-img-lg {
-            font-size: 3.5rem;
-        }
     }
 </style>
 <div class="container">
@@ -41,11 +44,11 @@ $userLastName = $user['UserLastName'];
         </div>
         <div class="col-md-7 col-lg-8">
             <h4 class="mb-3">Profile</h4>
-            <form class="needs-validation" action="" novalidate action="upload-file.php" method="post" enctype="multipart/form-data">
+            <form class="needs-validation" novalidate action="upload-file.php" method="post" enctype="multipart/form-data">
                 <div class="row g-3">
                     <div class="col-sm-6">
                         <label for="firstName" class="form-label">First name</label>
-                        <input type="text" class="form-control" id="firstName" placeholder="" value="<?= $userFirstName ?>" required readonly>
+                        <input type="text" class="form-control" id="firstName" placeholder="" value="<?= $userFirstName ?>" name="firstName" required readonly>
                         <div class="invalid-feedback">
                             Valid first name is required.
                         </div>
@@ -53,7 +56,7 @@ $userLastName = $user['UserLastName'];
 
                     <div class="col-sm-6">
                         <label for="lastName" class="form-label">Last name</label>
-                        <input type="text" class="form-control" id="lastName" placeholder="" value="<?= $userLastName ?>" required disabled>
+                        <input type="text" class="form-control" id="lastName" placeholder="" value="<?= $userLastName ?>" name="lastName" required disabled>
                         <div class="invalid-feedback">
                             Valid last name is required.
                         </div>
@@ -61,15 +64,23 @@ $userLastName = $user['UserLastName'];
 
                     <div class="col-12">
                         <label for="email" class="form-label">Email</label>
-                        <input type="email" class="form-control" id="email" placeholder="you@example.com">
+                        <input type="email" class="form-control" id="email" value="<?= $userName ?>" placeholder="you@example.com" name="email" readonly>
+                        <!--Change the READONLY -->
                         <div class="invalid-feedback">
                             Please enter a valid email address for shipping updates.
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <label for="age" class="form-label">Age</label>
+                        <input type="text" class="form-control" id="age" placeholder="" name="age" required>
+                        <div class="invalid-feedback">
+                            Please enter your age.
                         </div>
                     </div>
 
                     <div class="col-12">
                         <label for="address" class="form-label">Address</label>
-                        <input type="text" class="form-control" id="address" placeholder="1234 Main St" required>
+                        <input type="text" class="form-control" id="address" placeholder="1234 Main St" name="address" required>
                         <div class="invalid-feedback">
                             Please enter your shipping address.
                         </div>

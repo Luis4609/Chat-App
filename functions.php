@@ -63,7 +63,7 @@ function template_header($title, $userFirstName, $userName)
             </ul>  
         </div>
         <div class="collapse navbar-collapse" id="navbarCollapse">
-        <a class="nav-link" href="index.php?page=update-user-profile&username=$userName">Welcome $userFirstName </a>
+        <a class="nav-link" href="index.php?page=user-profile&username=$userName">Welcome $userFirstName </a>
         </div>
       </nav>
     </header>

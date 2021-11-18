@@ -48,3 +48,22 @@ if ($uploadOk == 0) {
     echo "Sorry, there was an error uploading your file.";
   }
 }
+
+//Update the user AVATAR
+$newUserAvatar = $target_file;
+//Update DB with the new Avatar
+//Mark as readed
+$stmtUpdate = $pdo->prepare('UPDATE Users SET UserAvatar = :userAvatar Where UserName = :userName');
+$stmtUpdate->execute(
+    array(
+        'userAvatar' => $newUserAvatar,
+        'userName' => $userName
+    )
+);
+$count = $stmtUpdate->rowCount();
+if ($count > 0) {
+    header('location: index.php?page=user-profile&username=' . $userName);
+}else {
+    $messageError = "Please verify your information";
+    header('location: index.php?page=edit-user-profile&messageError=' . $messageError);
+  }

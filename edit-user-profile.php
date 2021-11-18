@@ -15,19 +15,27 @@ $userLastName = $user['UserLastName'];
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-    $target_dir = "uploads/";
-    $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
-    $newUserAvatar = $target_file;
-
-    //Update DB with the new Avatar
-    //Mark as readed
-    $stmtUpdate = $pdo->prepare('UPDATE Users SET UserAvatar = :userAvatar Where UserName = :userName');
-    $stmtUpdate->execute(
-        array(
-            'userAvatar' => $newUserAvatar,
-            'userName' => $userName
-        )
-    );
+    include 'upload-file.php';
+    // $target_dir = "uploads/";
+    // $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
+    // $newUserAvatar = $target_file;
+    //  echo $newUserAvatar;
+    // //Update DB with the new Avatar
+    // //Mark as readed
+    // $stmtUpdate = $pdo->prepare('UPDATE Users SET UserAvatar = :userAvatar Where UserName = :userName');
+    // $stmtUpdate->execute(
+    //     array(
+    //         'userAvatar' => $newUserAvatar,
+    //         'userName' => $userName
+    //     )
+    // );
+    // $count = $stmtUpdate->rowCount();
+    // if ($count > 0) {
+    //     header('location: index.php?page=home');
+    // }else {
+    //     $messageError = "Please verify your information";
+    //     header('location: index.php?page=edit-user-profile&messageError=' . $messageError);
+    //   }
 }
 ?>
 <?= template_header('Home', $userFirstName, $userName) ?>
@@ -38,9 +46,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </style>
 <div class="container">
     <main>
+        <div class="py-5 text-center">
+            <img class="d-block mx-auto mb-4" src="/Chat-App/assets/brand/bootstrap-logo.svg" alt="" width="72" height="57">
+            <h2>Editar perfil</h2>
+        </div>
         <div class="col-md-7 col-lg-8">
             <h4 class="mb-3">Profile</h4>
-            <form class="needs-validation" novalidate action="upload-file.php" method="post" enctype="multipart/form-data">
+            <form class="needs-validation" novalidate action="" method="post" enctype="multipart/form-data">
                 <div class="row g-3">
                     <div class="col-sm-6">
                         <label for="firstName" class="form-label">First name</label>

@@ -1,7 +1,14 @@
 <?php
+//Get the session variables
+$userName = $_SESSION["username"];
+$firstName = $_SESSION["userFirstName"];
 // Get the contact list of a user
-$stmt = $pdo->prepare('SELECT * FROM Users');
-$stmt->execute();
+$stmt = $pdo->prepare('SELECT * FROM Users WHERE UserName != :username');
+$stmt->execute(
+    array(
+        'username'  =>  $_SESSION["username"]
+    )
+);
 //Verify the respond data from DB
 if ($stmt == null) {
     //Error
@@ -9,20 +16,16 @@ if ($stmt == null) {
     template_error('Error', $errorcontact);
 }
 $contacts = $stmt->fetchAll(PDO::FETCH_ASSOC);
-$userName = $_SESSION["username"];
-$firstName = $_SESSION["userFirstName"];
 ?>
 <?= template_header('Home', $firstName, $userName) ?>
 <link href="/Chat-App/assets/dist/css/list-groups.css" rel="stylesheet">
-<div class="featured">
-    <h2> <?= $firstName ?> <i class="far fa-address-book"></i></h2>
-</div>
+
 <div class="list-group">
     <h2><?= $firstName ?>'s Contact List <i class="fas fa-inbox"></i></h2>
     <div class="contacts">
         <?php foreach ($contacts as $contact) : ?>
             <a href="index.php?page=user-profile&username=<?= $contact['UserName'] ?>" class="list-group-item list-group-item-action d-flex gap-3 py-3" aria-current="true">
-            <!-- <a href="index.php?page=new-message&tousername=<?= $contact['UserName'] ?>" class="list-group-item list-group-item-action d-flex gap-3 py-3" aria-current="true"> -->
+                <!-- <a href="index.php?page=new-message&tousername=<?= $contact['UserName'] ?>" class="list-group-item list-group-item-action d-flex gap-3 py-3" aria-current="true"> -->
                 <img src="<?= $contact['UserAvatar'] ?>" alt="twbs" width="32" height="32" class="rounded-circle flex-shrink-0" />
                 <div class="d-flex gap-2 w-100 justify-content-between">
                     <div>

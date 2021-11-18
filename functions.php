@@ -42,10 +42,11 @@ function template_header($title, $userFirstName, $userName)
 	<body>
      <header>
       <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+       <div class="container-fluid">
         <a class="navbar-brand" href="#">Message-App</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
-        </button>
+        </button>   
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
@@ -60,10 +61,20 @@ function template_header($title, $userFirstName, $userName)
                 <li class="nav-item">
                  <a class="nav-link" href="index.php?page=contact-list">Contact list</a>
                 </li>
+                <li class="nav-item">
+                 <a class="nav-link" href="index.php?page=friends-list">Friends list</a>
+                </li>
+                <li class="nav-item">
+                <a class="nav-link" href="index.php?page=friends-request">Friends Request</a>
+               </li>
             </ul>  
         </div>
         <div class="collapse navbar-collapse" id="navbarCollapse">
         <a class="nav-link" href="index.php?page=user-profile&username=$userName">Welcome $userFirstName </a>
+        </div>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+        <a class="nav-link" href="index.php">Sign Out</a>
+        </div>
         </div>
       </nav>
     </header>
@@ -82,9 +93,9 @@ function template_footer()
         </div>
       </footer>
         <!-- Bootstrap core JavaScript
-    ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" crossorigin="anonymous"></script>
     <script>window.jQuery || document.write('<script src="/Chat-App/assets/dist/js/vendor/jquery-slim.min.js"><\/script>')</script>
     <script src="/Chat-App/assets/dist/js/popper.min.js"></script>
     <script src="/Chat-App/assets/dist/js/bootstrap.bundle.min.js"></script>

@@ -9,6 +9,12 @@ $stmt->execute(
 $user = $stmt->fetch(PDO::FETCH_ASSOC);
 $userNameSession = $_SESSION["username"];
 $userFirstName = $user['UserFirstName'];
+//If the user is looking his own profile, the SEND A MESSAGE button dont apear.
+if ($_GET['username'] == $userNameSession) {
+    $isDisabled = "disabled";
+} else {
+    $isDisabled = "";
+}
 
 ?>
 <?= template_header('Home', $userFirstName, $userNameSession) ?>
@@ -29,14 +35,15 @@ $userFirstName = $user['UserFirstName'];
                     <p class="card-text">Direccion:</p>
                     <p class="card-text">Hobbies:</p>
 
-                    <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                    <!-- <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p> -->
                 </div>
                 <a href="index.php?page=edit-user-profile" class="card-link">
-                    <div class="card-header">Editar perfil</div>
+                    <div class="card-header">Edit profile</div>
                 </a>
             </div>
         </div>
     </div>
+    <a href="index.php?page=new-message&touserid=<?= $user['UserId'] ?>&tousername=<?= $user['UserName'] ?>" class="btn btn-primary btn-lg btn-block <?= $isDisabled ?>">Send a message</a>
 </div>
 
 <?= template_footer() ?>

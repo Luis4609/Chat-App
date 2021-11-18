@@ -56,11 +56,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             header('location: index.php?page=home');
         } catch (Exception $e) {
             $messageError = "There is not user register with that name";
-            template_error('Error', $messageError);
         }
     } else {
         $messageError = "You cant send message to yourself, please verify the information";
-        template_error('Error', $messageError);
     }
 }
 ?>
@@ -86,6 +84,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
         </div>
     </div>
+    <?php if (isset($messageError)) {
+        template_error_inpage('Error', $messageError);
+    } ?>
     <button class="btn btn-primary btn-lg btn-block" type="submit">Send</button>
 </form>
 <!--Validation script for the form-->

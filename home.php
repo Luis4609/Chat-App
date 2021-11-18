@@ -36,9 +36,7 @@ $info_user = $stmtUser->fetch(PDO::FETCH_ASSOC);
 <?= template_header('Home', $firstName, $userName) ?>
 
 <link href="/Chat-App/assets/dist/css/list-groups.css" rel="stylesheet">
-<div class="featured">
-    <h2> <?= $firstName ?> <i class="far fa-address-book"></i></h2>
-</div>
+
 <div class="list-group">
     <h2><?= $firstName ?>'s Inbox <i class="fas fa-inbox"></i></h2>
     <div class="messages">

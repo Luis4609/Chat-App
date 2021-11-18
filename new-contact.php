@@ -5,8 +5,12 @@ $userId = $_SESSION["userid"];
 $userFirstName = $_SESSION["userFirstName"];
 
 //Get all the users for the SEARCH
-$stmt = $pdo->prepare('SELECT * FROM Users');
-$stmt->execute();
+$stmt = $pdo->prepare('SELECT * FROM Users WHERE UserName != :username');
+$stmt->execute(
+    array(
+        'username'  =>  $_SESSION["username"]
+    )
+);
 //Verify the respond data from DB
 if ($stmt == null) {
     //Error
@@ -20,7 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $newFriend = $_POST['username'];
 
-    if (empty($newFriend)) {
+    if (!empty($newFriend)) {
         $dataUserId = [
             'userName' => $newFriend,
         ];
@@ -29,21 +33,36 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $statementUserId = $pdo->prepare($sqlUserId);
         $statementUserId->execute($dataUserId);
 
-        $newFriend = $statementUserId->fetch(PDO::FETCH_ASSOC);
-        $newFriend = $newFriend['UserId'];
+        $newFriendStmt = $statementUserId->fetch(PDO::FETCH_ASSOC);
+        $newFriendId = $newFriendStmt['UserId'];
     }
     //Data for the friend request
     $date = date('Y-m-d H:i:s');
     $data = [
         'fromuserid' => $userId,
-        'newFriend' => $newFriend,
+        'newFriend' => $newFriendId,
         'dateRequest' => $date
     ];
     //Send a friend request
-    $sqlFriendRequest = "INSERT INTO Friends (UserName, UserName2, Timestamp ) VALUES
-    (:userName, :newFriend, :dateRequest)";
-    $statementUserId = $pdo->prepare($sqlUserId);
-    $statementUserId->execute($data);
+    //Check that the user is not sending messages to 
+    if ($userId != $newFriendId) {
+        try {
+            // set the PDO error mode to exception
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            $sqlFriendRequest = "INSERT INTO friends (UserId, UserId2, Timestamp) VALUES
+            (:fromuserid, :newFriend, :dateRequest)";
+            $statementUserId = $pdo->prepare($sqlFriendRequest);
+            $statementUserId->execute($data);
+            header('location: index.php?page=home');
+        } catch (Exception $e) {
+            $messageError = "There is not user register with that name";
+            template_error('Error', $messageError);
+        }
+    } else {
+        $messageError = "You cant send message to yourself, please verify the information";
+        template_error('Error', $messageError);
+    }
 }
 ?>
 <?= template_header('Home', $userFirstName, $userName) ?>
@@ -60,7 +79,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 Valid user name is required.
             </div>
             <datalist id="contacts">
-                <!--OBTENER AQUI LA LISTA DE CONTACTOS DEL USUARIO-->
                 <?php foreach ($users as $user) : ?>
                     <option value="<?= $user['UserName'] ?>">
                     <?php endforeach; ?>

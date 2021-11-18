@@ -3,7 +3,7 @@
 $userName = $_SESSION["username"];
 $firstName = $_SESSION["userFirstName"];
 // Get the contact list of a user
-$stmt = $pdo->prepare('SELECT * FROM Users WHERE UserName != :username');
+$stmt = $pdo->prepare('SELECT * FROM Users WHERE UserName != :username AND IsActive = 1');
 $stmt->execute(
     array(
         'username'  =>  $_SESSION["username"]
@@ -36,7 +36,7 @@ $contacts = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <?php endforeach; ?>
     </div>
     <hr class="mb-4">
-    <a href="index.php?page=new-contact" class="btn btn-primary btn-lg btn-block">New contact</a>
+    <a href="index.php?page=new-contact" class="btn btn-primary btn-lg btn-block">Add friend</a>
 
 </div>
 

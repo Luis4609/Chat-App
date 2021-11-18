@@ -11,8 +11,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
   //TO-DO CHECK IF THE USER IS AN ADMIN
   //REDIRECT THE ADMIN TO THE ADMINISTRATION ZONE
-
-  //$query = "SELECT * FROM users WHERE username = :username AND password = :password";  
+ 
   $sql = "SELECT  UserId,UserName, UserPassword, UserFirstName FROM Users WHERE UserName  = :username AND IsActive = 1";
   $statement = $pdo->prepare($sql);
   $statement->execute(

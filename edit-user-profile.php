@@ -46,10 +46,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </style>
 <div class="container">
     <main>
-        <div class="py-5 text-center">
-            <img class="d-block mx-auto mb-4" src="/Chat-App/assets/brand/bootstrap-logo.svg" alt="" width="72" height="57">
-            <h2>Editar perfil</h2>
-        </div>
         <div class="col-md-7 col-lg-8">
             <h4 class="mb-3">Profile</h4>
             <form class="needs-validation" novalidate action="" method="post" enctype="multipart/form-data">

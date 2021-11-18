@@ -11,7 +11,9 @@ if ($_GET['friend'] == 0) {
         )
     );
     $class = "alert alert-danger";
-    $text = "";
+    $text = "You ignore the request";
+    header('location: index.php?page=friends-request&messageError=' . $text);
+      
 } else {
 
     $stmtUpdate = $pdo->prepare('UPDATE Friends SET AreFriend = 1 Where FriendsId = :friendsid');
@@ -23,11 +25,8 @@ if ($_GET['friend'] == 0) {
 
     $class = "alert alert-danger";
     $text = "You accept the request succesfuly";
+    header('location: index.php?page=friends-request&messageError=' . $text);
 }
 ?>
 
-<div class="<?= $class ?>" role="alert">
-    <?= $text ?>
-</div>
 
-<?= template_footer() ?>

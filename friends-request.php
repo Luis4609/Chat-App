@@ -3,6 +3,10 @@
 $userName = $_SESSION["username"];
 $firstName = $_SESSION["userFirstName"];
 
+//Message of the operation ACEPT OR IGNORE
+if (isset($_GET["messageError"])) {
+    $messageError = $_GET["messageError"];
+  }
 // Get the latest friends requests to loged user
 $stmt = $pdo->prepare('SELECT * FROM Friends Where UserId2 = :userid AND AreFriend = 0 ORDER BY Timestamp DESC ');
 $stmt->execute(
@@ -82,7 +86,11 @@ $info_user = $stmtUser->fetch(PDO::FETCH_ASSOC);
                 <a type="button" class="btn btn-success" href="index.php?page=friends-requests-handler&friend=1&requestId=<?= $info_friend_request['FriendsId'] ?>">Accept</a>
                 <a type="button" class="btn btn-danger" href="index.php?page=friends-requests-handler&friend=0&requestId=<?= $info_friend_request['FriendsId'] ?>">Ignore</a>
             </div>
+            
         <?php endforeach; ?>
+        <?php if (isset($messageError)) {
+                template_error_inpage('Error', $messageError);
+             } ?>
     </div>
 
 </div>

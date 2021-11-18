@@ -15,6 +15,12 @@ if ($_GET['username'] == $userNameSession) {
 } else {
     $isDisabled = "";
 }
+//If the user is looking his own profile, HE CAN EDIT HIS PROFILE.
+if ($_GET['username'] == $userNameSession) {
+    $isDisabledEdit = "";
+} else {
+    $isDisabledEdit = "disabled";
+}
 
 ?>
 <?= template_header('Home', $userFirstName, $userNameSession) ?>
@@ -37,7 +43,7 @@ if ($_GET['username'] == $userNameSession) {
 
                     <!-- <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p> -->
                 </div>
-                <a href="index.php?page=edit-user-profile" class="card-link">
+                <a href="index.php?page=edit-user-profile" class="card-link <?= $isDisabledEdit ?>">
                     <div class="card-header">Edit profile</div>
                 </a>
             </div>

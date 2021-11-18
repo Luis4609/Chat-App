@@ -3,6 +3,22 @@
 $userName = $_SESSION["username"];
 $userId = $_SESSION["userid"];
 $userFirstName = $_SESSION["userFirstName"];
+
+//Get all the users for the SEARCH
+$stmt = $pdo->prepare('SELECT * FROM Users WHERE UserName != :username');
+$stmt->execute(
+    array(
+        'username'  =>  $_SESSION["username"]
+    )
+);
+//Verify the respond data from DB
+if ($stmt == null) {
+    //Error
+    $errorcontact = "There was an error in the database, please wait here";
+    template_error('Error', $errorcontact);
+}
+$users = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
 //Check if there are parameters
 if (isset($_GET["touserid"])) {
     $touserid = $_GET["touserid"];
@@ -67,23 +83,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <link href="/Chat-App/assets/dist/css/list-groups.css" rel="stylesheet">
 <!--Form for sending a message-->
 <form class="needs-validation" method="post" novalidate>
-    <div class="row">
+    <!-- <div class="row"> -->
         <div class="col-md-6 mb-3">
             <label for="username">To: </label>
             <!-- <input type="text" class="form-control" id="username" name="username" placeholder="" value="<?= $touseridurl ?>" required hidden> -->
-            <input type="text" class="form-control" id="username" name="username" placeholder="" value="<?= $tousernameurl ?>" <?= $isDisabled ?> required>
+            <input type="text" class="form-control" id="username" name="username" list="contacts" placeholder="" value="<?= $tousernameurl ?>" <?= $isDisabled ?> required>
             <div class="invalid-feedback">
                 Valid user name is required.
             </div>
+            <datalist id="contacts">
+                <?php foreach ($users as $user) : ?>
+                    <option value="<?= $user['UserName'] ?>">
+                    <?php endforeach; ?>
+            </datalist>
         </div>
         <div class="col-md-6 mb-3">
             <label for="message">Message</label>
-            <input type="text" class="form-control" id="message" name="message" placeholder="New message" value="" required>
+            <textarea type="text" class="form-control" id="message" name="message" placeholder="New message" value="" required></textarea>
             <div class="invalid-feedback">
                 Valid message is required.
             </div>
         </div>
-    </div>
+    <!-- </div> -->
     <?php if (isset($messageError)) {
         template_error_inpage('Error', $messageError);
     } ?>

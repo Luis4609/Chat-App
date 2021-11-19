@@ -73,3 +73,15 @@ The purpose of this file is to provide overview, setup instructions and backgrou
 > https://makitweb.com/how-to-store-array-in-mysql-with-php/
 
 > https://www.w3schools.com/tags/tag_embed.asp
+
+## Apis
+
+> https://github.com/public-apis/public-apis
+
+> https://devresourc.es/tools-and-utilities/public-apis
+
+> https://rapidapi.com/blog/how-to-use-an-api-with-php/
+
+> https://www.file.io/
+
+> https://fakerapi.it/en/?ref=devresourc.es

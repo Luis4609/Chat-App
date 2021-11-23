@@ -1,137 +1,136 @@
 <?php
 //Get session variables
 $userName = $_SESSION["username"];
-
+//Error handling
+if (isset($_GET["messageError"])) {
+    $messageError = $_GET["messageError"];
+}
 // Get the user
-$stmt = $pdo->prepare('SELECT * FROM Users Where UserName = :username');
-$stmt->execute(
-    array(
-        'username' => $_SESSION["username"]
-    )
-);
-$user = $stmt->fetch(PDO::FETCH_ASSOC);
+$user = get_user_by_userName($pdo, $_SESSION["username"]);
+
 $userFirstName = $user['UserFirstName'];
 $userLastName = $user['UserLastName'];
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-    include 'upload-file.php';
-    // $target_dir = "uploads/";
-    // $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
-    // $newUserAvatar = $target_file;
-    //  echo $newUserAvatar;
-    // //Update DB with the new Avatar
-    // //Mark as readed
-    // $stmtUpdate = $pdo->prepare('UPDATE Users SET UserAvatar = :userAvatar Where UserName = :userName');
-    // $stmtUpdate->execute(
-    //     array(
-    //         'userAvatar' => $newUserAvatar,
-    //         'userName' => $userName
-    //     )
-    // );
-    // $count = $stmtUpdate->rowCount();
-    // if ($count > 0) {
-    //     header('location: index.php?page=home');
-    // }else {
-    //     $messageError = "Please verify your information";
-    //     header('location: index.php?page=edit-user-profile&messageError=' . $messageError);
-    //   }
+
+    // //Update the user AVATAR
+    // if (isset($fileToUpload)) {
+    //     $newUserAvatar =   upload_file();
+    //     echo $newUserAvatar;
+    // }
+
+    $newUserAvatar =   upload_file(true);
+
+    if (!isset($newUserAvatar)) {
+        $messageError = "Error uploading file";
+        header('location: index.php?page=edit-user-profile&messageError=' . $messageError);
+        die;
+    }
+
+    if (empty($newUserAvatar)) {
+        //Update DB without avatar
+        $stmtUpdate = $pdo->prepare('UPDATE Users SET Age = :age, Address = :address Where UserName = :userName');
+        $stmtUpdate->execute(
+            array(
+                'age' => $_POST['age'],
+                'address' => $_POST['address'],
+                'userName' => $userName
+            )
+        );
+    } else {
+        //Update DB with the new Avatar
+        $stmtUpdate = $pdo->prepare('UPDATE Users SET Age = :age, Address = :address, UserAvatar = :userAvatar Where UserName = :userName');
+        $stmtUpdate->execute(
+            array(
+                'userAvatar' => $newUserAvatar,
+                'age' => $_POST['age'],
+                'address' => $_POST['address'],
+                'userName' => $userName
+            )
+        );
+    }
+
+
+    $count = $stmtUpdate->rowCount();
+    if ($count > 0) {
+        header('location: index.php?page=user-profile&username=' . $userName);
+    } else {
+        $messageError = "Please verify your information";
+        header('location: index.php?page=edit-user-profile&messageError=' . $messageError);
+    }
 }
 ?>
-<?= template_header('Home', $userFirstName, $userName) ?>
-<style>
-    .container {
-        max-width: 960px;
-    }
-</style>
+
+<?= template_header('Edit user profile', $userFirstName, $userName, $user['UserAvatar']) ?>
+
 <div class="container">
-    <main>
-        <div class="col-md-7 col-lg-8">
-            <h4 class="mb-3">Profile</h4>
-            <form class="needs-validation" novalidate action="" method="post" enctype="multipart/form-data">
-                <div class="row g-3">
-                    <div class="col-sm-6">
-                        <label for="firstName" class="form-label">First name</label>
-                        <input type="text" class="form-control" id="firstName" placeholder="" value="<?= $userFirstName ?>" name="firstName" required readonly>
-                        <div class="invalid-feedback">
-                            Valid first name is required.
-                        </div>
-                    </div>
+    <div class="row">
+        <div class="col-md-8">
+            <main class="form-signin ">
+                <div class="col-md-7 col-lg-7">
+                    <h4 class="mb-3">Edit profile</h4>
+                    <form class="form-control-file" novalidate action="" method="post" enctype="multipart/form-data">
+                        <div class="row g-3">
+                            <div class="col-sm-6">
+                                <label for="firstName" class="form-label">First name</label>
+                                <input type="text" class="form-control" id="firstName" placeholder="" value="<?= $userFirstName ?>" name="firstName" required readonly>
+                                <div class="invalid-feedback">
+                                    Valid first name is required.
+                                </div>
+                            </div>
 
-                    <div class="col-sm-6">
-                        <label for="lastName" class="form-label">Last name</label>
-                        <input type="text" class="form-control" id="lastName" placeholder="" value="<?= $userLastName ?>" name="lastName" required disabled>
-                        <div class="invalid-feedback">
-                            Valid last name is required.
-                        </div>
-                    </div>
+                            <div class="col-sm-6">
+                                <label for="lastName" class="form-label">Last name</label>
+                                <input type="text" class="form-control" id="lastName" placeholder="" value="<?= $userLastName ?>" name="lastName" required disabled>
+                                <div class="invalid-feedback">
+                                    Valid last name is required.
+                                </div>
+                            </div>
 
-                    <div class="col-12">
-                        <label for="email" class="form-label">Email</label>
-                        <input type="email" class="form-control" id="email" value="<?= $userName ?>" placeholder="you@example.com" name="email" readonly>
-                        <!--Change the READONLY -->
-                        <div class="invalid-feedback">
-                            Please enter a valid email address for shipping updates.
-                        </div>
-                    </div>
-                    <div class="col-12">
-                        <label for="age" class="form-label">Age</label>
-                        <input type="text" class="form-control" id="age" placeholder="" name="age" required>
-                        <div class="invalid-feedback">
-                            Please enter your age.
-                        </div>
-                    </div>
+                            <div class="col-12">
+                                <label for="email" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="email" value="<?= $userName ?>" placeholder="you@example.com" name="email" readonly>
+                                <!--Change the READONLY -->
+                                <div class="invalid-feedback">
+                                    Please enter a valid email address for shipping updates.
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <label for="age" class="form-label">Age</label>
+                                <input type="number" class="form-control" id="age" placeholder="" name="age" min="1" max="120" value="<?= $user['Age'] ?>">
+                                <div class="invalid-feedback">
+                                    Please enter your age.
+                                </div>
+                            </div>
 
-                    <div class="col-12">
-                        <label for="address" class="form-label">Address</label>
-                        <input type="text" class="form-control" id="address" placeholder="1234 Main St" name="address" required>
-                        <div class="invalid-feedback">
-                            Please enter your shipping address.
+                            <div class="col-12">
+                                <label for="address" class="form-label">Address</label>
+                                <input type="text" class="form-control" id="address" placeholder="1234 Main St" name="address" value="<?= $user['Address'] ?>">
+                                <div class="invalid-feedback">
+                                    Please enter your shipping address.
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                <label for="fileToUpload" class="form-label">New avatar</label>
+                                <input type="file" class="form-control" name="fileToUpload" id="fileToUpload">
+                            </div>
+                            <?php if (isset($messageError)) {
+                                template_error_inpage('Error', $messageError);
+                            } ?>
                         </div>
-                    </div>
-
-                    <div class="col-md-5">
-                        <label for="country" class="form-label">Country</label>
-                        <select class="form-select" id="country" required>
-                            <option value="">Choose...</option>
-                            <option>United States</option>
-                        </select>
-                        <div class="invalid-feedback">
-                            Please select a valid country.
-                        </div>
-                    </div>
-
-                    <div class="col-md-4">
-                        <label for="state" class="form-label">State</label>
-                        <select class="form-select" id="state" required>
-                            <option value="">Choose...</option>
-                            <option>California</option>
-                        </select>
-                        <div class="invalid-feedback">
-                            Please provide a valid state.
-                        </div>
-                    </div>
-
-                    <div class="col-md-3">
-                        <label for="zip" class="form-label">Zip</label>
-                        <input type="text" class="form-control" id="zip" placeholder="" required>
-                        <div class="invalid-feedback">
-                            Zip code required.
-                        </div>
-                    </div>
-                    <div class="col-md-8">
-                        <label for="fileToUpload" class="form-label">New avatar</label>
-                        <input type="file" class="form-control" name="fileToUpload" id="fileToUpload">
-                        <!-- <input type="submit" value="Upload Image" name="submit"> -->
-                    </div>
+                        <hr class="my-4">
+                        <button class="w-100 btn btn-primary btn-lg" type="submit">Save</button>
+                    </form>
                 </div>
-                <hr class="my-4">
-                <button class="w-100 btn btn-primary btn-lg" type="submit">Edit</button>
-            </form>
+
+            </main>
         </div>
-</div>
-</div>
-</main>
+        <div class="col">
+            <img src=" <?= $user['UserAvatar'] ?>" class="img-fluid img-thumbnail rounded float-end" alt="...">
+        </div>
+    </div>
 </div>
 
 <?= template_footer() ?>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>

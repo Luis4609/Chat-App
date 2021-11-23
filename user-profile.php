@@ -1,29 +1,28 @@
 <?php
-// Get the message
-$stmt = $pdo->prepare('SELECT * FROM Users Where UserName = :getusername');
-$stmt->execute(
-    array(
-        'getusername' => $_GET["username"]
-    )
-);
-$user = $stmt->fetch(PDO::FETCH_ASSOC);
+//Get the session variables
 $userNameSession = $_SESSION["username"];
-$userFirstName = $user['UserFirstName'];
+$userFirstName = $_SESSION["userFirstName"];
+$userSession = get_user_by_userName($pdo, $userNameSession);
+
+// Get info of the user
+$user = get_user_by_userName($pdo, $_GET["username"]);
+
+
 //If the user is looking his own profile, the SEND A MESSAGE button dont apear.
 if ($_GET['username'] == $userNameSession) {
-    $isDisabled = "disabled";
+    $isDisabled = "d-none";
 } else {
     $isDisabled = "";
 }
 //If the user is looking his own profile, HE CAN EDIT HIS PROFILE.
-if ($_GET['username'] == $userNameSession) {
-    $isDisabledEdit = "";
+if ($_GET['username'] != $userNameSession) {
+    $isDisabledEdit = "d-none";
 } else {
-    $isDisabledEdit = "disabled";
+    $isDisabledEdit = "";
 }
 
 ?>
-<?= template_header('Home', $userFirstName, $userNameSession) ?>
+<?= template_header('Home', $userFirstName, $userNameSession, $userSession['UserAvatar']) ?>
 
 <link href="/Chat-App/assets/dist/css/list-groups.css" rel="stylesheet">
 
@@ -37,19 +36,19 @@ if ($_GET['username'] == $userNameSession) {
                 <div class="card-body">
                     <h5 class="card-title"><?= $user['UserFirstName'] . " " .  $user['UserLastName'] ?></h5>
                     <p class="card-text">Email: <?= $user['UserName'] ?></p>
-                    <p class="card-text">Age:</p>
-                    <p class="card-text">Direccion:</p>
-                    <p class="card-text">Hobbies:</p>
-
-                    <!-- <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p> -->
+                    <p class="card-text">Age: <?= $user['Age'] ?></p>
+                    <p class="card-text">Address: <?= $user['Address'] ?></p>
                 </div>
-                <a href="index.php?page=edit-user-profile" class="card-link <?= $isDisabledEdit ?>">
-                    <div class="card-header">Edit profile</div>
-                </a>
+
             </div>
         </div>
     </div>
+    <hr class="mb-4">
+    <a href="index.php?page=edit-user-profile" class="btn btn-primary btn-lg btn-block <?= $isDisabledEdit ?>">
+        Edit profile
+    </a>
     <a href="index.php?page=new-message&touserid=<?= $user['UserId'] ?>&tousername=<?= $user['UserName'] ?>" class="btn btn-primary btn-lg btn-block <?= $isDisabled ?>">Send a message</a>
 </div>
 
 <?= template_footer() ?>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>

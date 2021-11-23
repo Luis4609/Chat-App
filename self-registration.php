@@ -3,14 +3,17 @@
 if (isset($_GET["messageError"])) {
   $messageError = $_GET["messageError"];
 }
-
+//Success registration
+if (isset($_GET["messageError"])) {
+  $messageError = $_GET["messageError"];
+}
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
   //information of the new user sent from register form
   $myusername =  $_POST['username'];
   $mypassword = password_hash($_POST["password"], PASSWORD_DEFAULT);
   $myuserFirstName =  $_POST['firstname'];
   $myuserLastName =  $_POST['lastname'];
-  //$myemail = $_POST['email];
+
   //Data from form registration
   $data = [
     'userName' => $myusername,
@@ -29,6 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     )
   );
   $count = $statementUserId->rowCount();
+  // $checkUserExists = get_user_by_userName($pdo, $myusername);
   if ($count > 0) {
     $messageError = "The user already exists";
     header('location: index.php?page=self-registration&messageError=' . $messageError);
@@ -60,11 +64,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   //Genero un token, lo inserto en DB
   $token = password_hash($myusername, PASSWORD_DEFAULT);
   //Get current time, and add 1 day(for the validation link)
-  $date = date('m/d/Y h:i:s a', time());
-  $getValidationDate = date('m/d/Y h:i:s a', strtotime($date . "+ 1 days"));
+  $date = date('Y-m-d H:i:s');
+  // $date = date('m/d/Y h:i:s a', time());
+  $getValidationDate = date('Y-m-d H:i:s', strtotime($date . "+1 days"));
   //Insert token in DB
   $sql = "INSERT INTO UserTokens (UserId, Token, Valid) VALUES
-  (:userId, :token, valid)";
+  (:userId, :token, :valid)";
   $statement = $pdo->prepare($sql);
   $statement->execute(
     array(
@@ -73,10 +78,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       'valid'  =>     $getValidationDate
     )
   );
-  //TO-DO SEND AN EMAIL
+  //SEND AN EMAIL TO STAR THE VERIFICATION PROCESS
   $subject = "Verification email";
   $content = "<a href='http://localhost/Chat-App/index.php?page=self-registration-verification&userId=$userId&token=$token'>Pls click this link to finish your registration process.</a>";
-  echo $myuserFirstName;
   send_email($myusername, $myuserFirstName, $subject, $content);
 }
 
@@ -87,7 +91,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="" />
+  <meta name="description" />
   <title>Sign Up</title>
   <!-- Bootstrap core CSS -->
   <link href="/Chat-App/assets/dist/css/bootstrap.min.css" rel="stylesheet" />
@@ -129,12 +133,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       <?php if (isset($messageError)) {
         template_error_inpage('Error', $messageError);
       } ?>
+      <?php if (isset($messageError)) {
+        template_error_inpage('Error', $messageError);
+      } ?>
+      <?php if (isset($messageError)) {
+        template_error_inpage('Error', $messageError);
+      } ?>
 
       <button class="w-100 btn btn-lg btn-primary" type="submit" style="margin-top: 5px;">
         Sign Up
       </button>
       <p class="mt-5 mb-3 text-muted">&copy; 2021-2022</p>
     </form>
+
     <!--Validation script for the password-->
     <script>
       var check = function() {

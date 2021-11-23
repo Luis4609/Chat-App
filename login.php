@@ -1,7 +1,13 @@
 <?php
+
 //Error handling
 if (isset($_GET["messageError"])) {
   $messageError = $_GET["messageError"];
+}
+
+//Success registration
+if (isset($_GET["messageSuccess"])) {
+  $messageSuccess = $_GET["messageSuccess"];
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -11,8 +17,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
   //TO-DO CHECK IF THE USER IS AN ADMIN
   //REDIRECT THE ADMIN TO THE ADMINISTRATION ZONE
- 
-  $sql = "SELECT  UserId,UserName, UserPassword, UserFirstName FROM Users WHERE UserName  = :username AND IsActive = 1";
+
+  $sql = "SELECT * FROM Users WHERE UserName  = :username AND IsActive = 1";
   $statement = $pdo->prepare($sql);
   $statement->execute(
     array(
@@ -22,20 +28,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   //Look if we had a user
   $count = $statement->rowCount();
   if ($count > 0) {
-    $_SESSION["username"] = $_POST["username"];
     $result = $statement->fetch(PDO::FETCH_ASSOC);
+    $_SESSION["username"] = $_POST["username"];
     $_SESSION["userid"] = $result['UserId'];
     $_SESSION["userFirstName"] = $result["UserFirstName"];
+
     //Verify the hashed password
     if (password_verify($_POST["password"], $result['UserPassword'])) {
-      header('location: index.php?page=home');
+      //Get the user role
+      if ($result['Role'] == 0) {
+        $_SESSION["userrole"] = USERROLE;
+        header('location: index.php?page=home');
+      } else {
+        $_SESSION["userrole"] = ADMINROLE;
+        header('location: index.php?page=admin-zone');
+      }
     } else {
       $messageError = "The user or password are incorrect, please verify your information";
       header('location: index.php?page=login&messageError=' . $messageError);
     }
-  } else {
-    $messageError = "The user or password are incorrect, please verify your information";
-    header('location: index.php?page=login&messageError=' . $messageError);
   }
 }
 ?>
@@ -58,11 +69,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body class="text-center">
   <main class="form-signin">
     <form action="" method="post">
-      <img class="mb-4" src="/Chat-App/assets/brand/bootstrap-logo.svg" alt="" width="72" height="57" />
       <!--LOGO-->
-      <!-- <span style="font-size: 48px; color: Dodgerblue;">
-        <i class="fas fa-comments"> Chat</i>
-      </span> -->
+      <img class="mb-4 rounded-circle" src="/Chat-App/assets/logo-chatapp.jpg" alt="" width="120" height="120" />
+
       <h1 class="h3 mb-3 fw-normal">Sign in</h1>
 
       <div class="form-floating">
@@ -81,6 +90,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       </div>
       <?php if (isset($messageError)) {
         template_error_inpage('Error', $messageError);
+      } ?>
+      <?php if (isset($messageSuccess)) {
+        template_success_inpage('Success', $messageSuccess);
       } ?>
       <button class="w-100 btn btn-lg btn-primary" type="submit">
         Sign in

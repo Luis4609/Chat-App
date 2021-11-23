@@ -1,4 +1,9 @@
 <?php
+//Variables session
+$userName = $_SESSION["username"];
+$firstName = $_SESSION["userFirstName"];
+//Get the info of the user
+$user = get_user_by_userName($pdo, $userName);
 // Get the latest sent messages from the logged in user
 $stmt = $pdo->prepare('SELECT * FROM Messages Where FromUserId = :userid ORDER BY Timestamp DESC ');
 $stmt->execute(
@@ -13,10 +18,9 @@ if ($stmt == null) {
     template_error('Error', $errorMessage);
 }
 $recently_added_messages = $stmt->fetchAll(PDO::FETCH_ASSOC);
-$userName = $_SESSION["username"];
-$firstName = $_SESSION["userFirstName"];
+
 ?>
-<?= template_header('Home', $firstName, $userName) ?>
+<?= template_header('Outbox', $firstName, $userName, $user['UserAvatar']) ?>
 
 <link href="/Chat-App/assets/dist/css/list-groups.css" rel="stylesheet">
 
@@ -26,19 +30,7 @@ $firstName = $_SESSION["userFirstName"];
         <?php foreach ($recently_added_messages as $message) : ?>
             <?php
             // Get the info of the FromUser
-            $stmtFromUser = $pdo->prepare('SELECT * FROM Users Where UserId = :userid ');
-            $stmtFromUser->execute(
-                array(
-                    'userid'     =>     $message['ToUserId']
-                )
-            );
-            //Verify the respond data from DB
-            if ($stmtFromUser == null) {
-                //Error
-                $errorMessage = "There was an error in the database, please wait here";
-                template_error('Error', $errorMessage);
-            }
-            $info_from_user = $stmtFromUser->fetch(PDO::FETCH_ASSOC);
+            $info_from_user = get_user_by_id($pdo, $message['ToUserId']);
             ?>
             <a href="index.php?page=message&id=<?= $message['MessageId'] ?>" class="list-group-item list-group-item-action d-flex gap-3 py-3" aria-current="true">
                 <img src="<?= $info_from_user['UserAvatar'] ?>" alt="twbs" width="32" height="32" class="rounded-circle flex-shrink-0" />
@@ -51,6 +43,14 @@ $firstName = $_SESSION["userFirstName"];
                     </div>
                     <small class="opacity-50 text-nowrap"><?= $message['Timestamp'] ?></small>
                 </div>
+                <?php if ($message['AttachFile'] == null || $message['AttachFile'] == "uploads/") {
+                    $isAttached = "";
+                } else {
+                    $isAttached = "fas fa-paperclip";
+                } ?>
+                <p>
+                    <i class="<?= $isAttached ?>"></i>
+                </p>
             </a>
         <?php endforeach; ?>
     </div>
@@ -60,3 +60,4 @@ $firstName = $_SESSION["userFirstName"];
 </div>
 
 <?= template_footer() ?>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>

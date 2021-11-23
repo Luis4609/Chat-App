@@ -3,21 +3,10 @@
 $userName = $_SESSION["username"];
 $userId = $_SESSION["userid"];
 $userFirstName = $_SESSION["userFirstName"];
-
+//Get the info user
+$user = get_user_by_id($pdo, $userId);
 //Get all the users for the SEARCH
-$stmt = $pdo->prepare('SELECT * FROM Users WHERE UserName != :username');
-$stmt->execute(
-    array(
-        'username'  =>  $_SESSION["username"]
-    )
-);
-//Verify the respond data from DB
-if ($stmt == null) {
-    //Error
-    $errorcontact = "There was an error in the database, please wait here";
-    template_error('Error', $errorcontact);
-}
-$users = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$users = get_all_active_users($pdo);
 
 //Check if there are parameters
 if (isset($_GET["touserid"])) {
@@ -28,7 +17,7 @@ if (isset($_GET["touserid"])) {
 
 if (isset($_GET["tousername"])) {
     $tousernameurl = $_GET["tousername"];
-    $isDisabled = "readonly";  //LE HE CAMBIADO A READONLY PORQUE CON DISABLED, SE PODIA MODIFICAR LA ENTRADA
+    $isDisabled = "readonly";
 } else {
     $tousernameurl = "";
     $isDisabled = "";
@@ -39,15 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $tousername = $_POST['username'];
 
     if (empty($touserid)) {
-        $dataUserId = [
-            'userName' => $tousername,
-        ];
-        //Query to get UserId by Name
-        $sqlUserId = "SELECT UserId FROM Users where UserName = :userName";
-        $statementUserId = $pdo->prepare($sqlUserId);
-        $statementUserId->execute($dataUserId);
-
-        $touserid = $statementUserId->fetch(PDO::FETCH_ASSOC);
+        $touserid = get_user_by_userName($pdo, $tousername);
         $touserid = $touserid['UserId'];
     }
 
@@ -57,16 +38,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         'fromuserid' => $userId,
         'touserid' => $touserid,
         'mymessage' => $mymessage,
-        'newdate' => $date
+        'newdate' => $date,
+        'attachfile'  => upload_file(false)
     ];
-    //Check that the user is not sending messages to 
+    //Check that the user is not sending messages to himself
     if ($userName != $tousername) {
         try {
             // set the PDO error mode to exception
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-            $sql = "INSERT INTO Messages (FromUserId, ToUserId, Text, Timestamp) VALUES
-        (:fromuserid, :touserid, :mymessage, :newdate)";
+            $sql = "INSERT INTO Messages (FromUserId, ToUserId, Text, Timestamp, AttachFile) VALUES
+        (:fromuserid, :touserid, :mymessage, :newdate, :attachfile)";
             $statement = $pdo->prepare($sql);
             $statement->execute($data);
             header('location: index.php?page=home');
@@ -78,38 +60,44 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 ?>
-<?= template_header('Home', $userFirstName, $userName) ?>
+<?= template_header('New message', $userFirstName, $userName, $user['UserAvatar']) ?>
 
 <link href="/Chat-App/assets/dist/css/list-groups.css" rel="stylesheet">
 <!--Form for sending a message-->
-<form class="needs-validation" method="post" novalidate>
-    <!-- <div class="row"> -->
-        <div class="col-md-6 mb-3">
-            <label for="username">To: </label>
-            <!-- <input type="text" class="form-control" id="username" name="username" placeholder="" value="<?= $touseridurl ?>" required hidden> -->
-            <input type="text" class="form-control" id="username" name="username" list="contacts" placeholder="" value="<?= $tousernameurl ?>" <?= $isDisabled ?> required>
-            <div class="invalid-feedback">
-                Valid user name is required.
-            </div>
-            <datalist id="contacts">
-                <?php foreach ($users as $user) : ?>
-                    <option value="<?= $user['UserName'] ?>">
-                    <?php endforeach; ?>
-            </datalist>
+<form class="needs-validation" method="post" novalidate enctype="multipart/form-data">
+    <div class="col-md-6 mb-3">
+        <label for="username">To: </label>
+        <!-- <input type="text" class="form-control" id="username" name="username" placeholder="" value="<?= $touseridurl ?>" required hidden> -->
+        <input type="text" class="form-control" id="username" name="username" list="contacts" placeholder="" value="<?= $tousernameurl ?>" <?= $isDisabled ?> required>
+        <div class="invalid-feedback">
+            Valid user name is required.
         </div>
-        <div class="col-md-6 mb-3">
-            <label for="message">Message</label>
-            <textarea type="text" class="form-control" id="message" name="message" placeholder="New message" value="" required></textarea>
-            <div class="invalid-feedback">
-                Valid message is required.
-            </div>
+        <datalist id="contacts">
+            <?php foreach ($users as $user) : ?>
+                <option value="<?= $user['UserName'] ?>">
+                <?php endforeach; ?>
+        </datalist>
+    </div>
+    <div class="col-md-6 mb-3">
+        <label for="message">Message</label>
+        <textarea type="text" class="form-control" id="message" name="message" placeholder="New message" value="" required></textarea>
+        <div class="invalid-feedback">
+            Valid message is required.
         </div>
-    <!-- </div> -->
+    </div>
+    <div class="col-md-6 mb-3">
+        <label for="fileToUpload" class="form-label">Attach file or image</label>
+        <input type="file" class="form-control" name="fileToUpload" id="fileToUpload">
+    </div>
     <?php if (isset($messageError)) {
         template_error_inpage('Error', $messageError);
     } ?>
-    <button class="btn btn-primary btn-lg btn-block" type="submit">Send</button>
+    <div class="col-md-6 mb-3">
+        <button class="btn btn-primary btn-lg btn-block" type="submit">Send</button>
+        <a href="index.php?page=new-message-recipients" class="btn btn-primary btn-lg btn-block">Send message to multiple users</a>
+    </div>
 </form>
+
 <!--Validation script for the form-->
 <script>
     //JavaScript for disabling form submissions if there are invalid fields
@@ -133,3 +121,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </script>
 
 <?= template_footer() ?>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>

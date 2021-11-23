@@ -1,6 +1,9 @@
 <?php
 
 include 'config.php';
+//Get session variables
+$userName = $_SESSION['username'];
+$userFirstName = $_SESSION['userFirstName'];
 
 function pdo_connect_mysql()
 {
@@ -17,8 +20,8 @@ function pdo_connect_mysql()
     }
 }
 
-// Template header, feel free to customize this
-function template_header($title, $userFirstName, $userName)
+// Template header
+function template_header($title, $userFirstName, $userName, $userAvatar)
 {
     echo <<<EOT
 <!DOCTYPE html>
@@ -27,9 +30,9 @@ function template_header($title, $userFirstName, $userName)
 		<meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>$title</title>
-        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/Chat-App/assets/Favicon/favicon-32x32.png">
          <!-- Bootstrap core CSS -->
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
         <link href="/Chat-App/assets/dist/css/bootstrap.min.css" rel="stylesheet" />
         <!-- Fontawesome core CSS -->
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css">
@@ -41,13 +44,13 @@ function template_header($title, $userFirstName, $userName)
 
 	<body>
      <header>
-      <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-       <div class="container-fluid">
+      <nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-dark">
+       <div class="container-fluid d-grid row"  style="grid-template-columns: 1fr 4fr 1fr">
         <a class="navbar-brand" href="#">Message-App</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
         </button>   
-        <div class="collapse navbar-collapse" id="navbarCollapse">
+        <div class="collapse navbar-collapse justify-content-center" id="navbarCollapse">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
                 <a class="nav-link" href="index.php?page=home">Inbox<span class="sr-only">(current)</span></a>
@@ -56,25 +59,38 @@ function template_header($title, $userFirstName, $userName)
                 <a class="nav-link" href="index.php?page=outbox">Outbox<span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                 <a class="nav-link" href="index.php?page=new-message">New message</a>
-                </li>
-                <li class="nav-item">
-                 <a class="nav-link" href="index.php?page=contact-list">Contact list</a>
-                </li>
-                <li class="nav-item">
-                 <a class="nav-link" href="index.php?page=friends-list">Friends list</a>
-                </li>
-                <li class="nav-item">
-                <a class="nav-link" href="index.php?page=friends-request">Friends Request</a>
+                <a class="nav-link" href="index.php?page=groups-list">Groups</a>
                </li>
+                <li class="nav-item">
+                 <a class="nav-link" href="index.php?page=contact-list">Contacts</a>
+                </li>
+                <li class="nav-item">
+                 <a class="nav-link" href="index.php?page=friends-list">Friends</a>
+                </li>
+                <li class="nav-item">
+                <a class="nav-link" href="index.php?page=friends-request">Friend Requests</a>
+               </li>
+               <li class="nav-item">
+               <a class="nav-link" href="index.php?page=new-message">New message</a>
+              </li>
             </ul>  
         </div>
-        <div class="collapse navbar-collapse" id="navbarCollapse">
-        <a class="nav-link" href="index.php?page=user-profile&username=$userName">Welcome $userFirstName </a>
-        </div>
-        <div class="collapse navbar-collapse" id="navbarCollapse">
-        <a class="nav-link" href="index.php">Sign Out</a>
-        </div>
+         <div class="d-flex " >
+          <div class="flex-shrink-0 dropdown mx-auto">
+            <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser2"
+              data-bs-toggle="dropdown" aria-expanded="false">
+              <img src="$userAvatar" alt="mdo" width="32" height="32" class="rounded-circle" />
+            </a>
+            <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
+            <li><a class="dropdown-item" href="index.php?page=user-profile&username=$userName">Profile</a></li>
+              <li><a class="dropdown-item" href="index.php?page=edit-user-profile">Settings</a></li>
+              <li>
+                <hr class="dropdown-divider"/>
+              </li>
+              <li><a class="dropdown-item" href="index.php">Sign out</a></li>
+            </ul>
+           </div>
+          </div>
         </div>
       </nav>
     </header>
@@ -92,13 +108,10 @@ function template_footer()
           <span class="text-muted">&copy; $year, Message App by Luis Monzón.</span>
         </div>
       </footer>
-        <!-- Bootstrap core JavaScript
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+        <!-- Bootstrap core JavaScript -->
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" crossorigin="anonymous"></script>
     <script>window.jQuery || document.write('<script src="/Chat-App/assets/dist/js/vendor/jquery-slim.min.js"><\/script>')</script>
-    <script src="/Chat-App/assets/dist/js/popper.min.js"></script>
-    <script src="/Chat-App/assets/dist/js/bootstrap.bundle.min.js"></script>
+
     </body>
 </html>
 EOT;
@@ -128,7 +141,7 @@ function template_error($title, $errorMessage)
         <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
     <script>window.jQuery || document.write('<script src="/Chat-App/assets/dist/js/vendor/jquery-slim.min.js"><\/script>')</script>
     <script src="/Chat-App/assets/dist/js/popper.min.js"></script>
     <script src="/Chat-App/assets/dist/js/bootstrap.bundle.min.js"></script>
@@ -167,11 +180,11 @@ function send_email($toUserMail, $toUserName, $subject, $content)
     require '../../vendor/autoload.php';
     //Create a new PHPMailer instance
     $mail = new PHPMailer();
-
     //Tell PHPMailer to use SMTP
     $mail->isSMTP();
-
+    //Configure logs for testing Set off(recomended on production)
     $mail->SMTPDebug = SMTP::DEBUG_OFF;
+    // $mail->SMTPDebug = SMTP::DEBUG_SERVER;
     //Set the hostname of the mail server
     $mail->Host = 'smtp.gmail.com';
     //Set the SMTP port number:
@@ -179,16 +192,14 @@ function send_email($toUserMail, $toUserName, $subject, $content)
     // - 587 for SMTP+STARTTLS
     $mail->Port = 465;
     $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
-
     //Whether to use SMTP authentication
     $mail->SMTPAuth = true;
-
     //Username to use for SMTP authentication - use full email address for gmail
-    $mail->Username = 'pepeperez4609@gmail.com';
+    $mail->Username = 'luismonped4609@gmail.com';
     //Password to use for SMTP authentication
-    $mail->Password = 'Pepe1234';
-    $mail->setFrom('pepeperez4609@gmail.com', 'First Last');
-    $mail->addReplyTo('replyto@example.com', 'First Last');
+    $mail->Password = 'LuisMon4609';
+    $mail->setFrom('luismonped4609@gmail.com', 'Confirmation link');
+    //$mail->addReplyTo('replyto@example.com', 'First Last');
     //Set who the message is to be sent to
     $mail->addAddress($toUserMail, $toUserName);
     //Set the subject line
@@ -198,19 +209,207 @@ function send_email($toUserMail, $toUserName, $subject, $content)
     //$mail->msgHTML(file_get_contents('contents.html'), __DIR__);
     $mail->MsgHTML($content);
     $mail->AltBody = 'This is a plain-text message body';
-
     //Attach an image file
     //$mail->addAttachment('images/phpmailer_mini.png');
-
     //send the message, check for errors
     if (!$mail->send()) {
-        echo 'Mailer Error: ' . $mail->ErrorInfo;
+        // echo 'Mailer Error: ' . $mail->ErrorInfo;
+        $sentMessageError = "There was an error, please check your information";
+        header('location: index.php?page=login&messageError=' . $sentMessageError);
     } else {
-        echo 'Message sent!';
+        // echo 'Message sent!';
+        $sentMessageCorrect = "The confirmation link was sent to your email";
+        header('location: index.php?page=login&messageSuccess=' . $sentMessageCorrect);
         //Section 2: IMAP
         //Uncomment these to save your message in the 'Sent Mail' folder.
         #if (save_mail($mail)) {
         #    echo "Message saved!";
         #}
     }
+}
+
+function upload_file($allowOnlyImg)
+{
+
+    if (empty($_FILES["fileToUpload"]["name"])) {
+        return "";
+    }
+    $target_dir = "uploads/";
+    $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
+
+    $uploadOk = 1;
+    $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+
+    // Check if image file is a actual image or fake image
+    if (isset($_POST["submit"])) {
+        $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
+        if ($check !== false) {
+            echo "File is an image - " . $check["mime"] . ".";
+            $uploadOk = 1;
+        } else {
+            echo "File is not an image.";
+            $uploadOk = 0;
+        }
+    }
+    // Check if file already exists
+    // if (file_exists($target_file)) {
+    //     echo "Sorry, file already exists.";
+    //     $uploadOk = 0;
+    // }
+
+    // Check file size
+    if ($_FILES["fileToUpload"]["size"] > 5000000) {
+        echo "Sorry, your file is too large.";
+        $uploadOk = 0;
+    }
+
+    // Allow certain file formats
+    if ($allowOnlyImg) {
+        if (
+            $imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
+            && $imageFileType != "gif"
+        ) {
+            echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
+            $uploadOk = 0;
+        }
+    }
+
+    // Check if $uploadOk is set to 0 by an error
+    if ($uploadOk == 0) {
+        echo "Sorry, your file was not uploaded.";
+        $target_file = null;
+        // if everything is ok, try to upload file
+    } else {
+        if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
+            echo "The file " . htmlspecialchars(basename($_FILES["fileToUpload"]["name"])) . " has been uploaded.";
+        } else {
+            echo "Sorry, there was an error uploading your file.";
+        }
+    }
+    //return the route of the uploaded file
+    return  $target_file;
+}
+
+function is_user_in_role($role)
+{
+    if (isset($role)) {
+        $getUserRole = $_SESSION['userrole'];
+        if (strcmp($role, $getUserRole) === 0) {
+            return true;
+        } else {
+            return false;
+        }
+    } else {
+        return false;
+    }
+}
+
+function get_all_users($pdo)
+{
+    //Get all the users for the SEARCH
+    $stmtUsersList = $pdo->prepare('SELECT * FROM Users WHERE UserName != :username');
+    $stmtUsersList->execute(
+        array(
+            'username'  =>  $_SESSION["username"]
+        )
+    );
+    //Verify the respond data from DB
+    if ($stmtUsersList == null) {
+        //Error
+        $errorcontact = "There was an error in the database, please wait here";
+        template_error('Error', $errorcontact);
+    }
+    return $stmtUsersList->fetchAll(PDO::FETCH_ASSOC);
+}
+
+function get_all_active_users($pdo)
+{
+    //Get all the users for the SEARCH
+    $stmtActiveUsersList = $pdo->prepare('SELECT * FROM Users WHERE UserName != :username AND IsActive = 1');
+    $stmtActiveUsersList->execute(
+        array(
+            'username'  =>  $_SESSION["username"]
+        )
+    );
+    //Verify the respond data from DB
+    if ($stmtActiveUsersList == null) {
+        //Error
+        $errorcontact = "There was an error in the database, please wait here";
+        template_error('Error', $errorcontact);
+    }
+    return $stmtActiveUsersList->fetchAll(PDO::FETCH_ASSOC);
+}
+
+function insert_participant_in_group($pdo, $groupId, $userId)
+{
+    $stmtInsterParticipants = $pdo->prepare('INSERT INTO group_participants (GroupId, UserId) VALUES
+    (:groupId, :userId)');
+    $stmtInsterParticipants->execute(
+        array(
+            'groupId' => $groupId,
+            'userId' => $userId
+        )
+    );
+    $count = $stmtInsterParticipants->rowCount();
+    if ($count > 0) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function get_user_by_id($pdo, $userId)
+{
+    // Get the user data
+    $stmtUserData = $pdo->prepare('SELECT * FROM Users Where UserId = :userid');
+    $stmtUserData->execute(
+        array(
+            'userid' => $userId
+        )
+    );
+    if ($stmtUserData == null) {
+        //Error
+        $errorMessage = "There was an error in the database, please wait here";
+        template_error('Error', $errorMessage);
+    }
+    return $stmtUserData->fetch(PDO::FETCH_ASSOC);
+}
+
+function get_user_by_userName($pdo, $userName)
+{
+    // Get the user data
+    $stmtUserData = $pdo->prepare('SELECT * FROM Users Where UserName = :userName');
+    $stmtUserData->execute(
+        array(
+            'userName' => $userName
+        )
+    );
+    if ($stmtUserData == null) {
+        //Error
+        $errorMessage = "There was an error in the database, please wait here";
+        template_error('Error', $errorMessage);
+    }
+    return $stmtUserData->fetch(PDO::FETCH_ASSOC);
+}
+
+function get_group_by_groupId($pdo, $groupId)
+{
+    $stmtGroup = $pdo->prepare('SELECT * FROM user_groups Where GroupId = :groupid');
+    $stmtGroup->execute(
+        array(
+            'groupid'     =>      $groupId
+        )
+    );
+    return $stmtGroup->fetch(PDO::FETCH_ASSOC);
+}
+
+function get_group_message_by_messageId($pdo, $messageId)
+{
+    $stmtGroupMessage = $pdo->prepare('SELECT * FROM group_messages Where MessageId = :messageId');
+    $stmtGroupMessage->execute(
+        array(
+            'messageId'     =>      $messageId
+        )
+    );
+    return $stmtGroupMessage->fetch(PDO::FETCH_ASSOC);
 }

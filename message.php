@@ -1,7 +1,10 @@
 <?php
 //Get the session data
+$userId = $_SESSION["userid"];
 $userName = $_SESSION["username"];
 $userFirstName = $_SESSION["userFirstName"];
+
+$user = get_user_by_userName($pdo, $_SESSION["username"]);
 
 // Get the message
 $stmt = $pdo->prepare('SELECT * FROM Messages  INNER JOIN Users ON Messages.FromUserId = Users.UserId AND Messages.MessageId = :messageid');
@@ -12,14 +15,9 @@ $stmt->execute(
 );
 $message = $stmt->fetch(PDO::FETCH_ASSOC);
 // Get the user data
-$stmtFromUserData = $pdo->prepare('SELECT * FROM Users Where UserId = :userid');
-$stmtFromUserData->execute(
-    array(
-        'userid' => $message["FromUserId"]
-    )
-);
-$fromUser = $stmtFromUserData->fetch(PDO::FETCH_ASSOC);
-
+$fromUser =  get_user_by_id($pdo, $message["FromUserId"]);
+// Get the reciver data
+$toUser =  get_user_by_id($pdo, $message["ToUserId"]);
 //Mark as readed
 $stmtUpdate = $pdo->prepare('UPDATE Messages SET IsRead = 1 Where Messages.MessageId = :messageid');
 $stmtUpdate->execute(
@@ -28,7 +26,7 @@ $stmtUpdate->execute(
     )
 );
 ?>
-<?= template_header('Home', $userFirstName, $userName) ?>
+<?= template_header('View message', $userFirstName, $userName, $user['UserAvatar']) ?>
 
 <link href="/Chat-App/assets/dist/css/list-groups.css" rel="stylesheet">
 
@@ -39,7 +37,7 @@ $stmtUpdate->execute(
             <img src="<?= $fromUser['UserAvatar'] ?>" alt="twbs" width="32" height="32" class="rounded-circle flex-shrink-0" />
             <div class="d-flex gap-2 w-100 justify-content-between">
                 <div>
-                    <h6 class="mb-0">Asunto del mensaje</h6>
+                    <h6 class="mb-0">To: <?= $toUser['UserFirstName'] ?> <?= $toUser['UserName'] ?></h6>
                     <p class="mb-0 opacity-75">
                         <?= $message['Text'] ?>
                     </p>
@@ -48,8 +46,34 @@ $stmtUpdate->execute(
             </div>
         </a>
     </div>
+    <!--Logic for show the attach file -->
+    <?php if ($message['AttachFile'] == null) {
+        $isAttached = "";
+        $isDisplayedImg = "d-none";
+        $isDisplayedFile = "d-none";
+    } else {
+        $extension = substr($message['AttachFile'], -3, 3);
+        $isAttached = $message['AttachFile'];
+        if (
+            $extension == "jpg" || $extension == "png" || $extension == "jpeg"
+            || $extension == "gif"
+        ) {
+            $isDisplayedImg = "";
+            $isDisplayedFile = "d-none";
+        } else {
+            $isDisplayedFile = "";
+            $isDisplayedImg = "d-none";
+        }
+    } ?>
+    <div class="ratio ratio-16x9 <?= $isDisplayedImg ?>">
+        <img src="<?= $isAttached ?>" class="img-fluid img-thumbnail rounded-3 w-100 <?= $isDisplayedImg ?>" alt="...">
+    </div>
+    <div class="ratio ratio-1x1 <?= $isDisplayedFile ?>">
+        <embed src="<?= $isAttached ?>" width="800px" height="210px" class="<?= $isDisplayedFile ?> embed-responsive-item" />
+    </div>
     <hr class="mb-4">
     <a href="index.php?page=new-message&touserid=<?= $message['FromUserId'] ?>&tousername=<?= $message['UserName'] ?>" class="btn btn-primary btn-lg btn-block">Reply</a>
 </div>
 
 <?= template_footer() ?>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>

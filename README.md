@@ -6,7 +6,7 @@ The purpose of this file is to provide overview, setup instructions and backgrou
 
 **Note** : Any dependencies added / modified to this project which affect the running of the code in this git repository must be listed in this file. All developers must ensure that the instructions mentioned in this file are sufficient to enable a new developer to obtain a executable copy of the lastest code in this repository, without involvement from any other human assistance.
 
-## Features
+## Features imlemented:
 
 ### Basic Funcionality
 
@@ -16,7 +16,7 @@ The purpose of this file is to provide overview, setup instructions and backgrou
 - Messages: check each message individually.
 - Config.file: the connection data to the database and to the mail server must be stored in files
 
-## Extensions
+### Extensions
 
 - **Self-registration**: realistic process for users to register on the website. To get the full score, you have to include an email with an activation link. **DONE**
 - **Password recovery**: users can change their password.
@@ -71,6 +71,7 @@ The purpose of this file is to provide overview, setup instructions and backgrou
 > https://makitweb.com/how-to-store-array-in-mysql-with-php/
 
 > https://www.w3schools.com/tags/tag_embed.asp
+<<<<<<< Updated upstream
 
 ## Apis
 
@@ -83,3 +84,5 @@ The purpose of this file is to provide overview, setup instructions and backgrou
 > https://www.file.io/
 
 > https://fakerapi.it/en/?ref=devresourc.es
+=======
+>>>>>>> Stashed changes

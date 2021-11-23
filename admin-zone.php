@@ -1,21 +1,17 @@
 <?php
+
 //Get the session variables
-// $userName = $_SESSION["username"];
-// $firstName = $_SESSION["userFirstName"];
-// // Get the contact list for the admin
-// $stmt = $pdo->prepare('SELECT * FROM Users WHERE UserName != :username');
-// $stmt->execute(
-//   array(
-//     'username'  =>  $_SESSION["username"]
-//   )
-// );
-// //Verify the respond data from DB
-// if ($stmt == null) {
-//   //Error
-//   $errorMessage = "There was an error in the database, please wait here";
-//   template_error('Error', $errorMessage);
-// }
-// $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$userName = $_SESSION["username"];
+$firstName = $_SESSION["userFirstName"];
+
+//Verify user role
+if (!is_user_in_role(ADMINROLE)) {
+  //Error
+  $errorMessage = "Unauthorized";
+  template_error('Error', $errorMessage);
+}
+// // Get the user list for the admin
+$users = get_all_users($pdo);
 ?>
 
 <!DOCTYPE html>
@@ -58,33 +54,9 @@
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">
+              <a class="nav-link" href="index.php?page=home">
                 <span data-feather="file"></span>
-                Orders
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">
-                <span data-feather="shopping-cart"></span>
-                Products
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">
-                <span data-feather="users"></span>
-                Customers
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">
-                <span data-feather="bar-chart-2"></span>
-                Reports
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">
-                <span data-feather="layers"></span>
-                Integrations
+                Go to message-app
               </a>
             </li>
           </ul>
@@ -93,20 +65,6 @@
       <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
         <div class="d-flex justify-content-between flex-wrap flex-md-nowrapalign-items-center pt-3pb-2mb-3border-bottom">
           <h1 class="h2">Users List</h1>
-          <div class="btn-toolbar mb-2 mb-md-0">
-            <div class="btn-group me-2">
-              <button type="button" class="btn btn-sm btn-outline-secondary">
-                Share
-              </button>
-              <button type="button" class="btn btn-sm btn-outline-secondary">
-                Export
-              </button>
-            </div>
-            <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">
-              <span data-feather="calendar"></span>
-              This week
-            </button>
-          </div>
         </div>
         <div class="table-responsive">
           <table class="table table-dark table-striped table-hover table-sm">
@@ -117,28 +75,49 @@
                 <th scope="col">First name</th>
                 <th scope="col">Last name</th>
                 <th scope="col">Active</th>
+                <th scope="col">Role</th>
+                <th scope="col">Avatar</th>
                 <th scope="col">Buttons</th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>1,001</td>
-                <td>random</td>
-                <td>data</td>
-                <td>placeholder</td>
-                <td>text</td>
-                <td>
-                  <button class="btn btn-sm btn-outline-secondary">
-                    Edit
-                  </button>
-                  <button class="btn btn-sm btn-outline-secondary">
-                    Delete
-                  </button>
-                  <button class="btn btn-sm btn-outline-secondary">
-                    Change active
-                  </button>
-                </td>
-              </tr>
+              <?php foreach ($users as $user) : ?>
+                <tr>
+                  <td> <?= $user['UserId'] ?></td>
+                  <td><?= $user['UserName'] ?></td>
+                  <td><?= $user['UserFirstName'] ?></td>
+                  <td><?= $user['UserLastName'] ?></td>
+                  <td><?= $user['IsActive'] ?></td>
+                  <td><?= $user['Role'] ?></td>
+                  <td><?= $user['UserAvatar'] ?></td>
+                  <td>
+                    <!-- <a class="btn btn-sm btn-outline-secondary" href="index.php?page=admin-zone-actions&editUser=1&userId=<?= $user['UserId'] ?>">
+                      Edit
+                    </a>
+                    <a class="btn btn-sm btn-outline-secondary" href="index.php?page=admin-zone-actions&deleteUser=1&userId=<?= $user['UserId'] ?>">
+                      Delete
+                    </a> -->
+                    <a class="btn btn-sm btn-outline-secondary" href="index.php?page=admin-zone-actions&changeActive=1&userId=<?= $user['UserId'] ?>">
+                      <?php if ($user['IsActive'] == 0) {
+                        $isActive = "Activete user";
+                      } else {
+                        $isActive = "Desactivate user";
+                      }
+                      ?>
+                      <?= $isActive ?>
+                    </a>
+                    <a class="btn btn-sm btn-outline-secondary" href="index.php?page=admin-zone-actions&changeRole=1&userId=<?= $user['UserId'] ?>">
+                      <?php if ($user['Role'] == 0) {
+                        $getRole = "Make to admin";
+                      } else {
+                        $getRole = "Make user";
+                      }
+                      ?>
+                      <?= $getRole ?>
+                    </a>
+                  </td>
+                </tr>
+              <?php endforeach; ?>
             </tbody>
           </table>
         </div>
@@ -152,4 +131,5 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js" integrity="sha384-zNy6FEbO50N+Cg5wap8IKA4M/ZnLJgzc6w2NqACZaK0u0FXfOWRRJOnQtpZun8ha" crossorigin="anonymous"></script>
   <script src="assets/dist/js/dashboard.js"></script>
 </body>
+
 </html>

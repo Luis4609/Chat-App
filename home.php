@@ -17,23 +17,11 @@ if ($stmt == null) {
     template_error('Error', $errorMessage);
 }
 $recently_added_messages = $stmt->fetchAll(PDO::FETCH_ASSOC);
-// Get the log user
-$stmtUser = $pdo->prepare('SELECT * FROM Users Where UserName = :userName ');
-$stmtUser->execute(
-    array(
-        'userName'     =>     $userName
-    )
-);
-//Verify the respond data from DB
-if ($stmtUser == null) {
-    //Error
-    $errorMessage = "There was an error in the database, please wait here";
-    template_error('Error', $errorMessage);
-}
-$info_user = $stmtUser->fetch(PDO::FETCH_ASSOC);
+// Get the log user info
+$info_user = get_user_by_userName($pdo, $userName);
 
 ?>
-<?= template_header('Home', $firstName, $userName) ?>
+<?= template_header('Inbox', $firstName, $userName, $info_user['UserAvatar']) ?>
 
 <link href="/Chat-App/assets/dist/css/list-groups.css" rel="stylesheet">
 
@@ -42,20 +30,8 @@ $info_user = $stmtUser->fetch(PDO::FETCH_ASSOC);
     <div class="messages">
         <?php foreach ($recently_added_messages as $message) : ?>
             <?php
-            // Get the info of the FromUser
-            $stmtFromUser = $pdo->prepare('SELECT * FROM Users Where UserId = :userid ');
-            $stmtFromUser->execute(
-                array(
-                    'userid'     =>     $message['FromUserId']
-                )
-            );
-            //Verify the respond data from DB
-            if ($stmtFromUser == null) {
-                //Error
-                $errorMessage = "There was an error in the database, please wait here";
-                template_error('Error', $errorMessage);
-            }
-            $info_from_user = $stmtFromUser->fetch(PDO::FETCH_ASSOC);
+            // Get the info of the FromUser(user that send the message)
+            $info_from_user = get_user_by_id($pdo, $message['FromUserId']);
             ?>
             <a href="index.php?page=message&id=<?= $message['MessageId'] ?>" class="list-group-item list-group-item-action d-flex gap-3 py-3" aria-current="true">
                 <img src="<?= $info_from_user['UserAvatar'] ?>" alt="twbs" width="32" height="32" class="rounded-circle flex-shrink-0" />
@@ -76,6 +52,15 @@ $info_user = $stmtUser->fetch(PDO::FETCH_ASSOC);
                 <p>
                     <i class="<?= $isReadClass ?>"></i>
                 </p>
+                <?php if ($message['AttachFile'] == null || $message['AttachFile'] == "uploads/") {
+                    $isAttached = "";
+                } else {
+                    $isAttached = "fas fa-paperclip";
+                } ?>
+                <p>
+                    <i class="<?= $isAttached ?>"></i>
+                </p>
+
             </a>
         <?php endforeach; ?>
     </div>
@@ -85,3 +70,4 @@ $info_user = $stmtUser->fetch(PDO::FETCH_ASSOC);
 </div>
 
 <?= template_footer() ?>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>

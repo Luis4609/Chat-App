@@ -4,6 +4,7 @@ $userId = $_SESSION['userid'];
 $userName = $_SESSION["username"];
 $firstName = $_SESSION["userFirstName"];
 
+$user = get_user_by_id($pdo, $_SESSION["userid"]);
 // Get the friends list of the logged user
 $stmtFriendList = $pdo->prepare('SELECT * FROM Friends WHERE (UserId = :userid OR UserId2 = :userid) AND AreFriend = 1');
 $stmtFriendList->execute(
@@ -20,7 +21,7 @@ if ($stmtFriendList == null) {
 $friends = $stmtFriendList->fetchAll(PDO::FETCH_ASSOC);
 
 ?>
-<?= template_header('Home', $firstName, $userName) ?>
+<?= template_header('Friend list', $firstName, $userName, $user['UserAvatar']) ?>
 <link href="/Chat-App/assets/dist/css/list-groups.css" rel="stylesheet">
 
 <div class="list-group">
@@ -64,3 +65,4 @@ $friends = $stmtFriendList->fetchAll(PDO::FETCH_ASSOC);
 </div>
 
 <?= template_footer() ?>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>

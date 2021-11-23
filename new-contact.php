@@ -3,7 +3,7 @@
 $userName = $_SESSION["username"];
 $userId = $_SESSION["userid"];
 $userFirstName = $_SESSION["userFirstName"];
-
+$user = get_user_by_id($pdo, $userId);
 //Get all the users for the SEARCH
 $stmt = $pdo->prepare('SELECT * FROM Users WHERE UserName != :username');
 $stmt->execute(
@@ -54,10 +54,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             (:fromuserid, :newFriend, :dateRequest)";
             $statementUserId = $pdo->prepare($sqlFriendRequest);
             $statementUserId->execute($data);
-            header('location: index.php?page=home');
+            header('location: index.php?page=contact-list');
         } catch (Exception $e) {
-            $messageError = "There is not user register with that name";
-            template_error('Error', $messageError);
+            $messageError = "You are already friends";
+            template_error_inpage('Error', $messageError);
         }
     } else {
         $messageError = "You cant send message to yourself, please verify the information";
@@ -65,7 +65,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 ?>
-<?= template_header('Home', $userFirstName, $userName) ?>
+<?= template_header('Home', $userFirstName, $userName, $user['UserAvatar']) ?>
 
 <link href="/Chat-App/assets/dist/css/list-groups.css" rel="stylesheet">
 
@@ -89,3 +89,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </form>
 
 <?= template_footer() ?>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>

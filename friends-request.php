@@ -2,11 +2,12 @@
 //Info of the log user
 $userName = $_SESSION["username"];
 $firstName = $_SESSION["userFirstName"];
-
 //Message of the operation ACEPT OR IGNORE
 if (isset($_GET["messageError"])) {
     $messageError = $_GET["messageError"];
-  }
+}
+// Get the log user
+$info_user = get_user_by_userName($pdo, $userName);
 // Get the latest friends requests to loged user
 $stmt = $pdo->prepare('SELECT * FROM Friends Where UserId2 = :userid AND AreFriend = 0 ORDER BY Timestamp DESC ');
 $stmt->execute(
@@ -21,23 +22,9 @@ if ($stmt == null) {
     template_error('Error', $errorrequest);
 }
 $recently_added_friends_requests = $stmt->fetchAll(PDO::FETCH_ASSOC);
-// Get the log user
-$stmtUser = $pdo->prepare('SELECT * FROM Users Where UserName = :userName ');
-$stmtUser->execute(
-    array(
-        'userName'     =>     $userName
-    )
-);
-//Verify the respond data from DB
-if ($stmtUser == null) {
-    //Error
-    $errorrequest = "There was an error in the database, please wait here";
-    template_error('Error', $errorrequest);
-}
-$info_user = $stmtUser->fetch(PDO::FETCH_ASSOC);
 
 ?>
-<?= template_header('Home', $firstName, $userName) ?>
+<?= template_header('Friends requests', $firstName, $userName, $info_user['UserAvatar']) ?>
 
 <link href="/Chat-App/assets/dist/css/list-groups.css" rel="stylesheet">
 
@@ -83,16 +70,17 @@ $info_user = $stmtUser->fetch(PDO::FETCH_ASSOC);
                         <h6 class="mb-0"> <?= $info_from_user['UserFirstName'] . " " . $info_from_user['UserLastName'] ?></h6>
                     </div>
                 </div>
-                <a type="button" class="btn btn-success" href="index.php?page=friends-requests-handler&friend=1&requestId=<?= $info_friend_request['FriendsId'] ?>">Accept</a>
-                <a type="button" class="btn btn-danger" href="index.php?page=friends-requests-handler&friend=0&requestId=<?= $info_friend_request['FriendsId'] ?>">Ignore</a>
+                <a type="button" class="btn btn-success" href="index.php?page=friends-requests-handler&friend=1&userId1=<?= $info_friend_request['UserId'] ?>&userId2=<?= $info_friend_request['UserId2'] ?>">Accept</a>
+                <a type="button" class="btn btn-danger" href="index.php?page=friends-requests-handler&friend=0&userId1=<?= $info_friend_request['UserId'] ?>&userId2=<?= $info_friend_request['UserId2'] ?>">Ignore</a>
             </div>
-            
+
         <?php endforeach; ?>
         <?php if (isset($messageError)) {
-                template_error_inpage('Error', $messageError);
-             } ?>
+            template_success_inpage('Error', $messageError);
+        } ?>
     </div>
 
 </div>
 
 <?= template_footer() ?>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>

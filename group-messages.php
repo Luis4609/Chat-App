@@ -2,15 +2,27 @@
 //Get session variables
 $userName = $_SESSION["username"];
 $firstName = $_SESSION["userFirstName"];
+<<<<<<< Updated upstream
+=======
+// Get the log user
+$info_user = get_user_by_userName($pdo, $userName);
+>>>>>>> Stashed changes
 
 //Check if there are parameters
 if (isset($_GET["groupid"])) {
     $showGroup = $_GET["groupid"];
 }
+<<<<<<< Updated upstream
 // Get the log user
 $info_user = get_user_by_userName($pdo, $userName);
 // Get the group
 $info_group = get_group_by_groupId($pdo, $showGroup);
+=======
+
+// Get the group
+$info_group = get_group_by_groupId($pdo, $showGroup);
+
+>>>>>>> Stashed changes
 // Get the latest messages from the group
 $stmtGroupMessages = $pdo->prepare('SELECT * FROM group_messages Where ToGroupId = :groupid ORDER BY Timestamp ASC ');
 $stmtGroupMessages->execute(
@@ -18,7 +30,11 @@ $stmtGroupMessages->execute(
         'groupid'     =>      $_GET["groupid"]
     )
 );
+<<<<<<< Updated upstream
 $info_group_messages = $stmtGroupMessages->fetch(PDO::FETCH_ASSOC);
+=======
+// $info_group_messages = $stmtGroupMessages->fetch(PDO::FETCH_ASSOC);
+>>>>>>> Stashed changes
 //Verify the respond data from DB
 if ($stmtGroupMessages == null) {
     //Error
@@ -27,7 +43,11 @@ if ($stmtGroupMessages == null) {
 }
 $recently_added_messages = $stmtGroupMessages->fetchAll(PDO::FETCH_ASSOC);
 
+<<<<<<< Updated upstream
 //Send a message to the group
+=======
+
+>>>>>>> Stashed changes
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $mymessage =  $_POST['message'];
@@ -39,6 +59,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         'newdate' => $date
         // 'attachfile'  => upload_file(false)
     ];
+<<<<<<< Updated upstream
     //Check that the user is not sending messages to himself
     if ($userName != $tousername) {
         try {
@@ -55,6 +76,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     } else {
         $messageError = "You cant send message to yourself, please verify the information";
+=======
+    try {
+        // set the PDO error mode to exception
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+        $sql = "INSERT INTO group_messages (FromUserId, ToGroupId, Text, Timestamp) VALUES
+            (:fromuserid, :togroupid, :mymessage, :newdate)";
+        $statement = $pdo->prepare($sql);
+        $statement->execute($data);
+        header('location: index.php?page=group-messages&groupid=' . $showGroup);
+    } catch (Exception $e) {
+        $messageError = "There is not user register with that name";
+>>>>>>> Stashed changes
     }
 }
 ?>
@@ -85,7 +119,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
         ?>
         <div class="mb-auto <?= $positionFlex ?> ">
+<<<<<<< Updated upstream
             <a href="index.php?page=group-message&messageId=<?= $messagesFromUser['MessageId'] ?>" class="list-group-item list-group-item-action d-flex gap-3 py-3 " aria-current="true">
+=======
+            <a href="index.php?page=group-message&messageId=<?= $message['MessageId'] ?>" class="list-group-item list-group-item-action d-flex gap-3 py-3 " aria-current="true">
+>>>>>>> Stashed changes
                 <img src="<?= $info_from_user['UserAvatar'] ?>" alt="twbs" width="32" height="32" class="rounded-circle flex-shrink-0" />
                 <div class="d-flex gap-2 w-100 justify-content-between">
                     <div>

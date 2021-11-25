@@ -46,7 +46,11 @@ $stmtUpdate->execute(
             </div>
         </a>
     </div>
+<<<<<<< Updated upstream
     <!--Logic for show the attach file -->
+=======
+    <!--Logic for show the attach file or image-->
+>>>>>>> Stashed changes
     <?php if ($message['AttachFile'] == null) {
         $isAttached = "";
         $isDisplayedImg = "d-none";
@@ -72,7 +76,16 @@ $stmtUpdate->execute(
         <embed src="<?= $isAttached ?>" width="800px" height="210px" class="<?= $isDisplayedFile ?> embed-responsive-item" />
     </div>
     <hr class="mb-4">
-    <a href="index.php?page=new-message&touserid=<?= $message['FromUserId'] ?>&tousername=<?= $message['UserName'] ?>" class="btn btn-primary btn-lg btn-block">Reply</a>
+    <!--Logic for control the reply information-->
+    <?php if ($message['FromUserId'] != $userId) {
+        $respond = $message['FromUserId'];
+        $respondName = $message['UserName'];
+    } else {
+        $respond = $message['ToUserId'];
+        $respondName = $toUser['UserName'];
+    }
+    ?>
+    <a href="index.php?page=new-message&touserid=<?= $respond ?>&tousername=<?= $respondName ?>" class="btn btn-primary btn-lg btn-block">Reply</a>
 </div>
 
 <?= template_footer() ?>

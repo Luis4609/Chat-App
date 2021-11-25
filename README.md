@@ -71,6 +71,7 @@ The purpose of this file is to provide overview, setup instructions and backgrou
 > https://makitweb.com/how-to-store-array-in-mysql-with-php/
 
 > https://www.w3schools.com/tags/tag_embed.asp
+<<<<<<< Updated upstream
 
 ## Apis
 
@@ -83,3 +84,5 @@ The purpose of this file is to provide overview, setup instructions and backgrou
 > https://www.file.io/
 
 > https://fakerapi.it/en/?ref=devresourc.es
+=======
+>>>>>>> Stashed changes

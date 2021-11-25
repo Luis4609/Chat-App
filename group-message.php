@@ -3,11 +3,20 @@
 $userId = $_SESSION["userid"];
 $userName = $_SESSION["username"];
 $userFirstName = $_SESSION["userFirstName"];
+<<<<<<< Updated upstream
+=======
+
+$user = get_user_by_id($pdo, $userId);
+>>>>>>> Stashed changes
 //Get the message to show
 if (isset($_GET['messageId'])) {
     $myMessage = $_GET['messageId'];
 }
 echo $myMessage;
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
 //Get the group info
 $stmtGroupMessage = $pdo->prepare('SELECT * FROM group_messages Where MessageId = :messageId');
 $stmtGroupMessage->execute(
@@ -16,7 +25,10 @@ $stmtGroupMessage->execute(
     )
 );
 $info_group_message = $stmtGroupMessage->fetch(PDO::FETCH_ASSOC);
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
 //get group name
 $stmtGroup = $pdo->prepare('SELECT * FROM user_groups Where GroupId = :groupId');
 $stmtGroup->execute(
@@ -26,8 +38,12 @@ $stmtGroup->execute(
 );
 $info_group = $stmtGroup->fetch(PDO::FETCH_ASSOC);
 
+<<<<<<< Updated upstream
 // $info_group_message = get_group_message_by_messageId($pdo, $myMessage);
 // echo $info_group_message['ToGroupId'];
+=======
+
+>>>>>>> Stashed changes
 // get message info
 $stmt = $pdo->prepare('SELECT * FROM group_messages WHERE MessageId = :messageid');
 $stmt->execute(
@@ -39,8 +55,12 @@ $message = $stmt->fetch(PDO::FETCH_ASSOC);
 
 // Get the user data
 $fromUser =  get_user_by_id($pdo, $message["FromUserId"]);
+<<<<<<< Updated upstream
 // Get the reciver data
 // $toUser =  get_user_by_id($pdo, $message["ToUserId"]);
+=======
+
+>>>>>>> Stashed changes
 //Mark as readed
 $stmtUpdate = $pdo->prepare('UPDATE group_messages SET IsRead = 1 Where MessageId = :messageid');
 $stmtUpdate->execute(

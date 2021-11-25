@@ -46,11 +46,7 @@ $stmtUpdate->execute(
             </div>
         </a>
     </div>
-<<<<<<< Updated upstream
     <!--Logic for show the attach file -->
-=======
-    <!--Logic for show the attach file or image-->
->>>>>>> Stashed changes
     <?php if ($message['AttachFile'] == null) {
         $isAttached = "";
         $isDisplayedImg = "d-none";

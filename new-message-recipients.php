@@ -15,7 +15,6 @@ $userLastName = $user['UserLastName'];
 $users = get_all_active_users($pdo);
 
 //Check that the user is not sending messages to himself
-
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['messageParticipants'])) {
 
     $mymessage =  $_POST['message'];

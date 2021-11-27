@@ -1,9 +1,6 @@
 <?php
 
 include 'config.php';
-//Get session variables
-$userName = $_SESSION['username'];
-$userFirstName = $_SESSION['userFirstName'];
 
 function pdo_connect_mysql()
 {

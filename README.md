@@ -18,6 +18,7 @@ Here you can find the demo links:
 ## Features imlemented:
 
 :heavy_check_mark: &nbsp;&nbsp;User Sign In & User Sign Up<br />
+:heavy_check_mark: &nbsp;&nbsp;User Sign Up with verification email<br />
 :heavy_check_mark: &nbsp;&nbsp;Send message to a existing user<br />
 :heavy_check_mark: &nbsp;&nbsp;See the list of the received messages<br />
 :heavy_check_mark: &nbsp;&nbsp;See the list of the sended messages<br />

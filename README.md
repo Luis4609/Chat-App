@@ -1,5 +1,4 @@
 <h1 align="center">Chat-App</h1>
-<h5 align="center">Not the usual clone that you can find on the web.</h5><br/>
 
 ### 🎯 About this file
 
@@ -33,8 +32,8 @@ Here you can find the demo links:
 
 ### Features not implemented:
 
-:heavy_uncheck_mark: &nbsp;&nbsp;Password recovery<br />
-:heavy_uncheck_mark: &nbsp;&nbsp;Testing with Codeception<br />
+&nbsp;&nbsp;Password recovery<br />
+&nbsp;&nbsp;Testing with Codeception<br />
 
 ## Technologies
 

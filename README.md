@@ -61,8 +61,8 @@ Here you can find the demo links:
 - Change the config.php file a
 
 ```bash
-define('DBUSER', 'your_user');
-define('DBPWD', 'your_password');
-define('DBHOST', 'localhost');
-define('DBNAME', 'database_name');
+  define('DBUSER', 'your_user');
+  define('DBPWD', 'your_password');
+  define('DBHOST', 'localhost');
+  define('DBNAME', 'database_name');
 ```

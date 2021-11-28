@@ -57,7 +57,7 @@ function template_header($title, $userFirstName, $userName, $userAvatar)
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="justify-content-center" id="navbarCollapse">
+        <div class="collapse navbar-collapse justify-content-center" id="navbarCollapse">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
                 <a class="nav-link" href="index.php?page=home">Inbox<span class="sr-only">(current)</span></a>

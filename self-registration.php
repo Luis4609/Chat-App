@@ -24,7 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   // set the PDO error mode to exception
   $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
   //Verify if the user exists
-  $sqlGetUserId = "SELECT  UserId,UserName FROM Users WHERE UserName  = :username";
+  $sqlGetUserId = "SELECT  UserId,UserName FROM users WHERE UserName  = :username";
   $statementUserId = $pdo->prepare($sqlGetUserId);
   $statementUserId->execute(
     array(
@@ -39,7 +39,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     die();
   }
   //Insert the new user
-  $sql = "INSERT INTO Users (UserName, UserPassword, UserFirstName, UserLastName) VALUES
+  $sql = "INSERT INTO users (UserName, UserPassword, UserFirstName, UserLastName) VALUES
 (:userName, :userPassword, :userFirstName, :userLastName)";
   $statement = $pdo->prepare($sql);
   $statement->execute($data);
@@ -68,7 +68,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   // $date = date('m/d/Y h:i:s a', time());
   $getValidationDate = date('Y-m-d H:i:s', strtotime($date . "+1 days"));
   //Insert token in DB
-  $sql = "INSERT INTO UserTokens (UserId, Token, Valid) VALUES
+  $sql = "INSERT INTO usertokens (UserId, Token, Valid) VALUES
   (:userId, :token, :valid)";
   $statement = $pdo->prepare($sql);
   $statement->execute(

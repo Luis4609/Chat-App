@@ -7,7 +7,7 @@ $userFirstName = $_SESSION["userFirstName"];
 $user = get_user_by_userName($pdo, $_SESSION["username"]);
 
 // Get the message
-$stmt = $pdo->prepare('SELECT * FROM Messages  INNER JOIN Users ON Messages.FromUserId = Users.UserId AND Messages.MessageId = :messageid');
+$stmt = $pdo->prepare('SELECT * FROM messages  INNER JOIN users ON messages.FromUserId = users.UserId AND messages.MessageId = :messageid');
 $stmt->execute(
     array(
         'messageid' => $_GET["id"]
@@ -19,7 +19,7 @@ $fromUser =  get_user_by_id($pdo, $message["FromUserId"]);
 // Get the reciver data
 $toUser =  get_user_by_id($pdo, $message["ToUserId"]);
 //Mark as readed
-$stmtUpdate = $pdo->prepare('UPDATE Messages SET IsRead = 1 Where Messages.MessageId = :messageid');
+$stmtUpdate = $pdo->prepare('UPDATE messages SET IsRead = 1 Where messages.MessageId = :messageid');
 $stmtUpdate->execute(
     array(
         'messageid' => $_GET["id"]

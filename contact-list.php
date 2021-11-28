@@ -5,7 +5,7 @@ $firstName = $_SESSION["userFirstName"];
 //Get the info of the log user
 $user = get_user_by_userName($pdo, $userName);
 // Get the contact list of a user
-$stmt = $pdo->prepare('SELECT * FROM Users WHERE UserName != :username AND IsActive = 1');
+$stmt = $pdo->prepare('SELECT * FROM users WHERE UserName != :username AND IsActive = 1');
 $stmt->execute(
     array(
         'username'  =>  $_SESSION["username"]

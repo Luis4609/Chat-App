@@ -5,7 +5,7 @@ $firstName = $_SESSION["userFirstName"];
 //Get the info of the user
 $user = get_user_by_userName($pdo, $userName);
 // Get the latest sent messages from the logged in user
-$stmt = $pdo->prepare('SELECT * FROM Messages Where FromUserId = :userid ORDER BY Timestamp DESC ');
+$stmt = $pdo->prepare('SELECT * FROM messages Where FromUserId = :userid ORDER BY Timestamp DESC ');
 $stmt->execute(
     array(
         'userid'     =>      $_SESSION["userid"]

@@ -304,7 +304,7 @@ function is_user_in_role($role)
 function get_all_users($pdo)
 {
     //Get all the users for the SEARCH
-    $stmtUsersList = $pdo->prepare('SELECT * FROM Users WHERE UserName != :username');
+    $stmtUsersList = $pdo->prepare('SELECT * FROM users WHERE UserName != :username');
     $stmtUsersList->execute(
         array(
             'username'  =>  $_SESSION["username"]
@@ -322,7 +322,7 @@ function get_all_users($pdo)
 function get_all_active_users($pdo)
 {
     //Get all the users for the SEARCH
-    $stmtActiveUsersList = $pdo->prepare('SELECT * FROM Users WHERE UserName != :username AND IsActive = 1');
+    $stmtActiveUsersList = $pdo->prepare('SELECT * FROM users WHERE UserName != :username AND IsActive = 1');
     $stmtActiveUsersList->execute(
         array(
             'username'  =>  $_SESSION["username"]
@@ -358,7 +358,7 @@ function insert_participant_in_group($pdo, $groupId, $userId)
 function get_user_by_id($pdo, $userId)
 {
     // Get the user data
-    $stmtUserData = $pdo->prepare('SELECT * FROM Users Where UserId = :userid');
+    $stmtUserData = $pdo->prepare('SELECT * FROM users Where UserId = :userid');
     $stmtUserData->execute(
         array(
             'userid' => $userId
@@ -375,7 +375,7 @@ function get_user_by_id($pdo, $userId)
 function get_user_by_userName($pdo, $userName)
 {
     // Get the user data
-    $stmtUserData = $pdo->prepare('SELECT * FROM Users Where UserName = :userName');
+    $stmtUserData = $pdo->prepare('SELECT * FROM users Where UserName = :userName');
     $stmtUserData->execute(
         array(
             'userName' => $userName

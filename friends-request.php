@@ -9,7 +9,7 @@ if (isset($_GET["messageError"])) {
 // Get the log user
 $info_user = get_user_by_userName($pdo, $userName);
 // Get the latest friends requests to loged user
-$stmt = $pdo->prepare('SELECT * FROM Friends Where UserId2 = :userid AND AreFriend = 0 ORDER BY Timestamp DESC ');
+$stmt = $pdo->prepare('SELECT * FROM friends Where UserId2 = :userid AND AreFriend = 0 ORDER BY Timestamp DESC ');
 $stmt->execute(
     array(
         'userid'     =>      $_SESSION["userid"]
@@ -34,7 +34,7 @@ $recently_added_friends_requests = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <?php foreach ($recently_added_friends_requests as $request) : ?>
             <?php
             // Get the info of the user that sent the request
-            $stmtFromUser = $pdo->prepare('SELECT * FROM Users Where UserId = :userid ');
+            $stmtFromUser = $pdo->prepare('SELECT * FROM users Where UserId = :userid ');
             $stmtFromUser->execute(
                 array(
                     'userid'     =>     $request['UserId']
@@ -48,7 +48,7 @@ $recently_added_friends_requests = $stmt->fetchAll(PDO::FETCH_ASSOC);
             }
             $info_from_user = $stmtFromUser->fetch(PDO::FETCH_ASSOC);
             // Get the id of the friend request
-            $stmtFriend = $pdo->prepare('SELECT * FROM Friends Where UserId = :userid AND UserId2 = :userid2');
+            $stmtFriend = $pdo->prepare('SELECT * FROM friends Where UserId = :userid AND UserId2 = :userid2');
             $stmtFriend->execute(
                 array(
                     'userid'     =>     $request['UserId'],

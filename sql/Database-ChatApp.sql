@@ -21,8 +21,8 @@ CREATE TABLE `usertokens` (
     PRIMARY KEY (`UserId`),
     CONSTRAINT `usertokens_ibfk_1` FOREIGN KEY (`UserId`) REFERENCES `users` (`UserId`)
 );
-DROP TABLE IF EXISTS `Messages`;
-CREATE TABLE `Messages` (
+DROP TABLE IF EXISTS `messages`;
+CREATE TABLE `messages` (
     `MessageId` int(10) NOT NULL AUTO_INCREMENT,
     `FromUserId` int(10) NOT NULL,
     `ToUserId` int(10) NOT NULL,
@@ -31,8 +31,8 @@ CREATE TABLE `Messages` (
     `IsRead` boolean NOT NULL default 0,
     `AttachFile` varchar(100),
     PRIMARY KEY (MessageId),
-    FOREIGN KEY (FromUserId) REFERENCES Users(UserId),
-    FOREIGN KEY (ToUserId) REFERENCES Users(UserId)
+    FOREIGN KEY (FromUserId) REFERENCES users(UserId),
+    FOREIGN KEY (ToUserId) REFERENCES users(UserId)
 );
 DROP TABLE IF EXISTS `friends`;
 CREATE TABLE `friends` (
@@ -41,8 +41,8 @@ CREATE TABLE `friends` (
     `Timestamp` datetime NOT NULL,
     `AreFriend` tinyint(4) NOT NULL DEFAULT '0',
     PRIMARY KEY (`UserId`, `UserId2`),
-    FOREIGN KEY (UserId) REFERENCES Users(UserId),
-    FOREIGN KEY (Userid2) REFERENCES Users(UserId)
+    FOREIGN KEY (UserId) REFERENCES users(UserId),
+    FOREIGN KEY (Userid2) REFERENCES users(UserId)
 );
 DROP TABLE IF EXISTS `user_groups`;
 CREATE TABLE `user_groups` (
@@ -58,7 +58,7 @@ CREATE TABLE `group_participants` (
     `UserId` int(10) NOT NULL,
     PRIMARY KEY (`GroupId`, `UserId`),
     FOREIGN KEY (GroupId) REFERENCES user_groups(GroupId),
-    FOREIGN KEY (Userid) REFERENCES Users(UserId)
+    FOREIGN KEY (Userid) REFERENCES users(UserId)
 );
 DROP TABLE IF EXISTS `group_messages`;
 CREATE TABLE `group_messages` (
@@ -69,6 +69,6 @@ CREATE TABLE `group_messages` (
     `Timestamp` datetime NOT NULL,
     `IsRead` boolean NOT NULL default 0,
     PRIMARY KEY (MessageId),
-    FOREIGN KEY (FromUserId) REFERENCES Users(UserId),
+    FOREIGN KEY (FromUserId) REFERENCES users(UserId),
     FOREIGN KEY (ToGroupId) REFERENCES user_groups(GroupId)
 );

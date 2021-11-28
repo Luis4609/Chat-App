@@ -1,0 +1,8 @@
+{
+  "require-dev": {
+    "heroku/heroku-buildpack-php": "*"
+  },
+  "require": {
+    "alrik11es/cowsayphp": "^1.2"
+  }
+}

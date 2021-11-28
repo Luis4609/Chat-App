@@ -30,7 +30,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if (empty($newUserAvatar)) {
         //Update DB without avatar
-        $stmtUpdate = $pdo->prepare('UPDATE Users SET Age = :age, Address = :address Where UserName = :userName');
+        $stmtUpdate = $pdo->prepare('UPDATE users SET Age = :age, Address = :address Where UserName = :userName');
         $stmtUpdate->execute(
             array(
                 'age' => $_POST['age'],
@@ -40,7 +40,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         );
     } else {
         //Update DB with the new Avatar
-        $stmtUpdate = $pdo->prepare('UPDATE Users SET Age = :age, Address = :address, UserAvatar = :userAvatar Where UserName = :userName');
+        $stmtUpdate = $pdo->prepare('UPDATE users SET Age = :age, Address = :address, UserAvatar = :userAvatar Where UserName = :userName');
         $stmtUpdate->execute(
             array(
                 'userAvatar' => $newUserAvatar,

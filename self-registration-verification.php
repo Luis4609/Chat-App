@@ -18,7 +18,7 @@ if (isset($_GET["messageError"])) {
   // set the PDO error mode to exception
   $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
   //Verify if the user exists
-  $sql = "SELECT  UserId FROM UserTokens WHERE UserId  = :userId AND Token = :token AND Valid > curdate()";
+  $sql = "SELECT  UserId FROM usertokens WHERE UserId  = :userId AND Token = :token AND Valid > curdate()";
   $statement = $pdo->prepare($sql);
   $statement->execute(
     array(
@@ -29,7 +29,7 @@ if (isset($_GET["messageError"])) {
   $count = $statement->rowCount();
   if ($count > 0) {
     //Activate the user
-    $sql = "UPDATE  Users SET IsActive = 1 WHERE UserId  = :userId ";
+    $sql = "UPDATE  users SET IsActive = 1 WHERE UserId  = :userId ";
     $statement = $pdo->prepare($sql);
     $statement->execute(
       array(
@@ -37,7 +37,7 @@ if (isset($_GET["messageError"])) {
       )
     );
     //Login the new user
-    $sql = "SELECT  UserName, UserFirstName FROM Users WHERE UserId  = :userId";
+    $sql = "SELECT  UserName, UserFirstName FROM users WHERE UserId  = :userId";
     $statement = $pdo->prepare($sql);
     $statement->execute(
       array(

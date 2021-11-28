@@ -5,7 +5,7 @@ $userId = $_SESSION["userid"];
 $userFirstName = $_SESSION["userFirstName"];
 $user = get_user_by_id($pdo, $userId);
 //Get all the users for the SEARCH
-$stmt = $pdo->prepare('SELECT * FROM Users WHERE UserName != :username');
+$stmt = $pdo->prepare('SELECT * FROM users WHERE UserName != :username');
 $stmt->execute(
     array(
         'username'  =>  $_SESSION["username"]
@@ -29,7 +29,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             'userName' => $newFriend,
         ];
         //Query to get UserId by Name
-        $sqlUserId = "SELECT UserId FROM Users where UserName = :userName";
+        $sqlUserId = "SELECT UserId FROM users where UserName = :userName";
         $statementUserId = $pdo->prepare($sqlUserId);
         $statementUserId->execute($dataUserId);
 

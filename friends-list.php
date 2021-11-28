@@ -6,7 +6,7 @@ $firstName = $_SESSION["userFirstName"];
 
 $user = get_user_by_id($pdo, $_SESSION["userid"]);
 // Get the friends list of the logged user
-$stmtFriendList = $pdo->prepare('SELECT * FROM Friends WHERE (UserId = :userid OR UserId2 = :userid) AND AreFriend = 1');
+$stmtFriendList = $pdo->prepare('SELECT * FROM friends WHERE (UserId = :userid OR UserId2 = :userid) AND AreFriend = 1');
 $stmtFriendList->execute(
     array(
         'userid'     =>     $userId
@@ -35,7 +35,7 @@ $friends = $stmtFriendList->fetchAll(PDO::FETCH_ASSOC);
             } else {
                 $myFriend = $friend['UserId'];
             }
-            $stmtRealFriend = $pdo->prepare('SELECT * FROM Users WHERE UserId = :friendid');
+            $stmtRealFriend = $pdo->prepare('SELECT * FROM users WHERE UserId = :friendid');
             $stmtRealFriend->execute(
                 array(
                     'friendid'     =>     $myFriend

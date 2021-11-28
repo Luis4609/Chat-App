@@ -47,7 +47,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // set the PDO error mode to exception
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-            $sql = "INSERT INTO Messages (FromUserId, ToUserId, Text, Timestamp, AttachFile) VALUES
+            $sql = "INSERT INTO messages (FromUserId, ToUserId, Text, Timestamp, AttachFile) VALUES
         (:fromuserid, :touserid, :mymessage, :newdate, :attachfile)";
             $statement = $pdo->prepare($sql);
             $statement->execute($data);

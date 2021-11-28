@@ -54,7 +54,7 @@ function template_header($title, $userFirstName, $userName, $userAvatar)
       <nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-dark">
        <div class="container-fluid d-grid row"  style="grid-template-columns: 1fr 4fr 1fr">
         <a class="navbar-brand" href="#">Message-App</a>  
-      
+        <div class="collapse navbar-collapse justify-content-center" id="navbarCollapse">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
                 <a class="nav-link" href="index.php?page=home">Inbox<span class="sr-only">(current)</span></a>
@@ -78,7 +78,7 @@ function template_header($title, $userFirstName, $userName, $userAvatar)
                <a class="nav-link" href="index.php?page=new-message">New message</a>
               </li>
             </ul>  
-        
+        </div>
          <div class="d-flex " >
           <div class="flex-shrink-0 dropdown mx-auto">
             <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser2"

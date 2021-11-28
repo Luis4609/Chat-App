@@ -12,7 +12,8 @@ Here you can find the demo links:
 
 ### Test credentials
 
-> Email: luis@gmail.com<br/>
+> Email admin: luis@gmail.com<br/>
+> Email user: pepe@gmail.com<br/>
 > Password: 1234<br/>
 
 ## Features imlemented:

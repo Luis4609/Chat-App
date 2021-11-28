@@ -11,4 +11,4 @@ define('USERROLE', 'user');
 
 //Root folder of the APP
 //Heroku root
-define('APPROOT', "");
+define('APPROOT', $_ENV['APPROOTFOLDER']);

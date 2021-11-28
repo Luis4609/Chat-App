@@ -73,7 +73,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   <main class="form-signin">
     <form action="" method="post">
       <!--LOGO-->
-      <img class="mb-4 rounded-circle" src="/Chat-App/assets/logo-chatapp.jpg" alt="" width="120" height="120" />
+      <img class="mb-4 rounded-circle" src="<?= $APP_ROOT_FOLDER ?>/assets/logo-chatapp.jpg" alt="" width="120" height="120" />
 
       <h1 class="h3 mb-3 fw-normal">Sign in</h1>
 

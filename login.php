@@ -1,5 +1,8 @@
 <?php
 
+include 'config.php';
+$APP_ROOT_FOLDER = APPROOT;
+
 //Error handling
 if (isset($_GET["messageError"])) {
   $messageError = $_GET["messageError"];
@@ -61,9 +64,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   <!-- Fontawesome core Icons -->
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css">
   <!-- Bootstrap core CSS -->
-  <link href="/Chat-App/assets/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="<?= $APP_ROOT_FOLDER ?>/assets/dist/css/bootstrap.min.css" rel="stylesheet" />
   <!-- Custom styles for this template -->
-  <link href="/Chat-App/assets/dist/css/signin.css" rel="stylesheet" />
+  <link href="<?= $APP_ROOT_FOLDER ?>/assets/dist/css/signin.css" rel="stylesheet" />
 </head>
 
 <body class="text-center">

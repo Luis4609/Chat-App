@@ -20,6 +20,7 @@ function pdo_connect_mysql()
 // Template header
 function template_header($title, $userFirstName, $userName, $userAvatar)
 {
+    $APP_ROOT_FOLDER = APPROOT;
     echo <<<EOT
 <!DOCTYPE html>
 <html lang="en">
@@ -30,13 +31,12 @@ function template_header($title, $userFirstName, $userName, $userAvatar)
         <link rel="icon" type="image/png" sizes="32x32" href="/Chat-App/assets/Favicon/favicon-32x32.png">
          <!-- Bootstrap core CSS -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-        <link href="/Chat-App/assets/dist/css/bootstrap.min.css" rel="stylesheet" />
         <!-- Fontawesome core CSS -->
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css">
         <!-- Custom styles for this template -->
-        <link href="/Chat-App/assets/dist/css/navbar-top-fixed.css" rel="stylesheet">
-        <link href="/Chat-App/assets/dist/css/sticky-footer-navbar.css" rel="stylesheet">
-        <link href="/Chat-App/assets/dist/css/list-groups.css" rel="stylesheet">
+        <link href="$APP_ROOT_FOLDER/assets/dist/css/navbar-top-fixed.css" rel="stylesheet">
+        <link href="$APP_ROOT_FOLDER/assets/dist/css/sticky-footer-navbar.css" rel="stylesheet">
+        <link href="$APP_ROOT_FOLDER/assets/dist/css/list-groups.css" rel="stylesheet">
 	</head>
 
 	<body>

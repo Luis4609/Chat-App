@@ -47,8 +47,6 @@ function template_header($title, $userFirstName, $userName, $userAvatar)
         <link href="$APP_ROOT_FOLDER/assets/dist/css/navbar-top-fixed.css" rel="stylesheet">
         <link href="$APP_ROOT_FOLDER/assets/dist/css/sticky-footer-navbar.css" rel="stylesheet">
         <link href="$APP_ROOT_FOLDER/assets/dist/css/list-groups.css" rel="stylesheet">
-        <!-- Bootstrap core JavaScript -->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 	</head>
 
 	<body>

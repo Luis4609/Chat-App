@@ -47,6 +47,7 @@ function template_header($title, $userFirstName, $userName, $userAvatar)
         <link href="$APP_ROOT_FOLDER/assets/dist/css/navbar-top-fixed.css" rel="stylesheet">
         <link href="$APP_ROOT_FOLDER/assets/dist/css/sticky-footer-navbar.css" rel="stylesheet">
         <link href="$APP_ROOT_FOLDER/assets/dist/css/list-groups.css" rel="stylesheet">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 	</head>
 
 	<body>
@@ -54,6 +55,9 @@ function template_header($title, $userFirstName, $userName, $userAvatar)
       <nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-dark">
        <div class="container-fluid d-grid row"  style="grid-template-columns: 1fr 4fr 1fr">
         <a class="navbar-brand" href="#">Message-App</a>  
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+        </button>
         <div class="collapse navbar-collapse justify-content-center" id="navbarCollapse">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">

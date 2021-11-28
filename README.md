@@ -4,7 +4,7 @@
 
 The purpose of this file is to provide overview, setup instructions and background information of the project.
 
-## ▶️ Demo (TO-DO)
+## ▶️ Demo
 
 Here you can find the demo links:
 

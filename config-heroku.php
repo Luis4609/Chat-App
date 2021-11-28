@@ -9,5 +9,5 @@ define('DBNAME', 'chatapp');
 define('ADMINROLE', 'admin');
 define('USERROLE', 'user');
 
-//Root folder of the APP 
-define('APPROOT', $_ENV['PROFILE']);
+//Root folder for the HEROKU ENV
+define('APPROOT', $_ENV['APPROOTFOLDER']);

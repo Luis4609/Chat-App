@@ -1,4 +1,6 @@
 <?php
+//
+$APP_ROOT_FOLDER = APPROOT;
 //Error handling
 if (isset($_GET["messageError"])) {
   $messageError = $_GET["messageError"];
@@ -66,9 +68,9 @@ if (isset($_GET["messageError"])) {
   <meta name="description" content="" />
   <title>Sign Up</title>
   <!-- Bootstrap core CSS -->
-  <link href="/Chat-App/assets/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="<?= $APP_ROOT_FOLDER ?>/assets/dist/css/bootstrap.min.css" rel="stylesheet" />
   <!-- Custom styles for this template -->
-  <link href="/Chat-App/assets/dist/css/signin.css" rel="stylesheet" />
+  <link href="<?= $APP_ROOT_FOLDER ?>/assets/dist/css/signin.css" rel="stylesheet" />
 </head>
 
 <body class="text-center">

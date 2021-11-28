@@ -1,4 +1,5 @@
 <?php
+
 //Get the session variables
 $userName = $_SESSION["username"];
 $firstName = $_SESSION["userFirstName"];
@@ -19,7 +20,7 @@ if ($stmt == null) {
 }
 $contacts = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
-<link href="/Chat-App/assets/dist/css/list-groups.css" rel="stylesheet">
+
 <?= template_header('Home', $firstName, $userName, $user['UserAvatar']) ?>
 
 <div class="list-group">

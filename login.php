@@ -1,6 +1,5 @@
 <?php
-
-include 'config.php';
+//Environment variable for root folder
 $APP_ROOT_FOLDER = APPROOT;
 
 //Error handling

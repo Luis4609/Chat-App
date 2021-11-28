@@ -23,8 +23,6 @@ $info_user = get_user_by_userName($pdo, $userName);
 ?>
 <?= template_header('Inbox', $firstName, $userName, $info_user['UserAvatar']) ?>
 
-<link href="/Chat-App/assets/dist/css/list-groups.css" rel="stylesheet">
-
 <div class="list-group">
     <h2><?= $firstName ?>'s Inbox <i class="fas fa-inbox"></i></h2>
     <div class="messages">

@@ -1,4 +1,6 @@
 <?php
+//
+$APP_ROOT_FOLDER = APPROOT;
 //Error handling
 if (isset($_GET["messageError"])) {
   $messageError = $_GET["messageError"];
@@ -80,7 +82,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   );
   //SEND AN EMAIL TO STAR THE VERIFICATION PROCESS
   $subject = "Verification email";
+  if ($APP_ROOT_FOLDER == "HEROKU") {
+    $content = "<a href='https://ljmp-message-app.herokuapp.com/index.php?page=self-registration-verification&userId=$userId&token=$token'>Pls click this link to finish your registration process.</a>";
+  }
   $content = "<a href='http://localhost/Chat-App/index.php?page=self-registration-verification&userId=$userId&token=$token'>Pls click this link to finish your registration process.</a>";
+
   send_email($myusername, $myuserFirstName, $subject, $content);
 }
 
@@ -94,15 +100,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   <meta name="description" />
   <title>Sign Up</title>
   <!-- Bootstrap core CSS -->
-  <link href="/Chat-App/assets/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="<?= $APP_ROOT_FOLDER ?>/assets/dist/css/bootstrap.min.css" rel="stylesheet" />
   <!-- Custom styles for this template -->
-  <link href="/Chat-App/assets/dist/css/signin.css" rel="stylesheet" />
+  <link href="<?= $APP_ROOT_FOLDER ?>/assets/dist/css/signin.css" rel="stylesheet" />
 </head>
 
 <body class="text-center">
   <main class="form-signin">
     <form action="" method="post">
-      <img class="mb-4" src="/Chat-App/assets/brand/bootstrap-logo.svg" alt="" width="72" height="57" />
+      <img class="mb-4" src="<?= $APP_ROOT_FOLDER ?>/assets/brand/bootstrap-logo.svg" alt="" width="72" height="57" />
       <h1 class="h3 mb-3 fw-normal">Sign Up</h1>
 
       <div class="form-floating">

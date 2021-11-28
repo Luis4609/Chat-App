@@ -1,5 +1,6 @@
 <?php
-
+//Environment variable for root folder
+$APP_ROOT_FOLDER = APPROOT;
 //Get the session variables
 $userName = $_SESSION["username"];
 $firstName = $_SESSION["userFirstName"];
@@ -25,7 +26,7 @@ $users = get_all_users($pdo);
   <!-- Bootstrap core CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" />
   <!-- Custom styles for this template -->
-  <link href="/Chat-App/assets/dist/css/dashboard.css" rel="stylesheet" />
+  <link href="<?= $APP_ROOT_FOLDER ?>/assets/dist/css/dashboard.css" rel="stylesheet" />
 </head>
 
 <body>

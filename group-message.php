@@ -51,8 +51,6 @@ $stmtUpdate->execute(
 ?>
 <?= template_header('Home', $userFirstName, $userName, $user['UserAvatar']) ?>
 
-<link href="/Chat-App/assets/dist/css/list-groups.css" rel="stylesheet">
-
 <div class="list-group">
     <h3><?= $fromUser['UserFirstName'] . " " . $fromUser['UserLastName'] ?>'s Message</h3>
     <div class="messages">

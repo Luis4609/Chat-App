@@ -62,7 +62,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 ?>
 <?= template_header('New message', $userFirstName, $userName, $user['UserAvatar']) ?>
 
-<link href="/Chat-App/assets/dist/css/list-groups.css" rel="stylesheet">
 <!--Form for sending a message-->
 <form class="needs-validation" method="post" novalidate enctype="multipart/form-data">
     <div class="col-md-6 mb-3">

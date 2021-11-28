@@ -26,8 +26,6 @@ $recently_added_friends_requests = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <?= template_header('Friends requests', $firstName, $userName, $info_user['UserAvatar']) ?>
 
-<link href="/Chat-App/assets/dist/css/list-groups.css" rel="stylesheet">
-
 <div class="list-group">
     <h2>Pending friends requests <i class="fas fa-user-friends"></i></h2>
     <div class="requests">

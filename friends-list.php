@@ -22,7 +22,6 @@ $friends = $stmtFriendList->fetchAll(PDO::FETCH_ASSOC);
 
 ?>
 <?= template_header('Friend list', $firstName, $userName, $user['UserAvatar']) ?>
-<link href="/Chat-App/assets/dist/css/list-groups.css" rel="stylesheet">
 
 <div class="list-group">
     <h2><?= $firstName ?>'s Friends List <i class="fas fa-inbox"></i></h2>

@@ -75,8 +75,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 ?>
 <?= template_header('Messages', $firstName, $userName, $info_user['UserAvatar']) ?>
 
-<link href="/Chat-App/assets/dist/css/list-groups.css" rel="stylesheet">
-
 <!-- <div class="list-group"> -->
 <h2>Group: <?= $info_group['GroupName'] ?></h2>
 <div class="d-flex flex-column">

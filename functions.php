@@ -1,6 +1,16 @@
 <?php
 
-include 'config.php';
+switch (getenv('PROFILE')) {
+    case 'DEVELOPMENT':
+        include 'config-dev.php';
+        break;
+    case 'HEROKU':
+        include 'config-heroku.php';
+        break;
+    default:
+        include 'config.php';
+        break;
+}
 
 function pdo_connect_mysql()
 {
@@ -28,7 +38,7 @@ function template_header($title, $userFirstName, $userName, $userAvatar)
 		<meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>$title</title>
-        <link rel="icon" type="image/png" sizes="32x32" href="/Chat-App/assets/Favicon/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="$APP_ROOT_FOLDER/assets/Favicon/favicon-32x32.png">
          <!-- Bootstrap core CSS -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
         <!-- Fontawesome core CSS -->
@@ -107,8 +117,6 @@ function template_footer()
       </footer>
         <!-- Bootstrap core JavaScript -->
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" crossorigin="anonymous"></script>
-    <script>window.jQuery || document.write('<script src="/Chat-App/assets/dist/js/vendor/jquery-slim.min.js"><\/script>')</script>
-
     </body>
 </html>
 EOT;
@@ -117,6 +125,7 @@ EOT;
 // Template error page
 function template_error($title, $errorMessage)
 {
+    $APP_ROOT_FOLDER = APPROOT;
     echo <<<EOT
     <!DOCTYPE html>
 <html>
@@ -125,10 +134,10 @@ function template_error($title, $errorMessage)
 		<title>$title</title>
 		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css">
         <!-- Bootstrap core CSS -->
-        <link href="/Chat-App/assets/dist/css/bootstrap.min.css" rel="stylesheet" />
+        <link href="$APP_ROOT_FOLDER/assets/dist/css/bootstrap.min.css" rel="stylesheet" />
         <!-- Custom styles for this template -->
-        <link href="/Chat-App/assets/dist/css/navbar-top-fixed.css" rel="stylesheet">
-        <link href="/Chat-App/assets/dist/css/sticky-footer-navbar.css" rel="stylesheet">
+        <link href="$APP_ROOT_FOLDER/assets/dist/css/navbar-top-fixed.css" rel="stylesheet">
+        <link href="$APP_ROOT_FOLDER/assets/dist/css/sticky-footer-navbar.css" rel="stylesheet">
 	</head>
 
 	<body>
@@ -139,9 +148,8 @@ function template_error($title, $errorMessage)
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
-    <script>window.jQuery || document.write('<script src="/Chat-App/assets/dist/js/vendor/jquery-slim.min.js"><\/script>')</script>
-    <script src="/Chat-App/assets/dist/js/popper.min.js"></script>
-    <script src="/Chat-App/assets/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="$APP_ROOT_FOLDER/assets/dist/js/popper.min.js"></script>
+    <script src="$APP_ROOT_FOLDER/assets/dist/js/bootstrap.bundle.min.js"></script>
     </body>
 </html>
 EOT;

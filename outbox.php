@@ -22,8 +22,6 @@ $recently_added_messages = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <?= template_header('Outbox', $firstName, $userName, $user['UserAvatar']) ?>
 
-<link href="/Chat-App/assets/dist/css/list-groups.css" rel="stylesheet">
-
 <div class="list-group">
     <h2><?= $firstName ?>'s Outbox <i class="fas fa-inbox"></i></h2>
     <div class="messages">

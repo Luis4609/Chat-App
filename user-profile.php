@@ -24,8 +24,6 @@ if ($_GET['username'] != $userNameSession) {
 ?>
 <?= template_header('Home', $userFirstName, $userNameSession, $userSession['UserAvatar']) ?>
 
-<link href="/Chat-App/assets/dist/css/list-groups.css" rel="stylesheet">
-
 <div class="list-group">
     <div class="card mb-3 border-light" style="max-width: 540px;">
         <div class="row g-0">

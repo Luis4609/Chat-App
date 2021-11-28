@@ -10,4 +10,4 @@ define('ADMINROLE', 'admin');
 define('USERROLE', 'user');
 
 //Root folder of the APP 
-define('APPROOT', "/Chat-App");
+define('APPROOT', $_ENV['PROFILE']);

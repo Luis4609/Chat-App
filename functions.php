@@ -47,6 +47,15 @@ function template_header($title, $userFirstName, $userName, $userAvatar)
         <link href="$APP_ROOT_FOLDER/assets/dist/css/navbar-top-fixed.css" rel="stylesheet">
         <link href="$APP_ROOT_FOLDER/assets/dist/css/sticky-footer-navbar.css" rel="stylesheet">
         <link href="$APP_ROOT_FOLDER/assets/dist/css/list-groups.css" rel="stylesheet">
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+          <script async src="https://www.googletagmanager.com/gtag/js?id=G-RQKH2QZHRX"></script>
+            <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'G-RQKH2QZHRX');
+            </script>
 	</head>
 
 	<body>
